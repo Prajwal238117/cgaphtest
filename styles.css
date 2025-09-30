@@ -201,6 +201,39 @@ body {
     transform: translateY(-2px);
 }
 
+/* User Button */
+.user-button {
+    display: flex;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 1001;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    color: #f1f5f9;
+    font-size: 1.2rem;
+    position: relative;
+    margin-left: 1rem;
+}
+
+.user-button:hover {
+    opacity: 0.8;
+}
+
+.user-button:active {
+    opacity: 0.6;
+}
+
+/* Mobile User Button Positioning */
+@media (max-width: 768px) {
+    .user-button {
+        margin-left: 0.5rem;
+        order: 3;
+    }
+}
+
 /* Hamburger Menu */
 .hamburger {
     display: none;
@@ -213,16 +246,192 @@ body {
     align-items: center;
     width: 32px;
     height: 32px;
-    background: none;
+    position: relative;
+}
+
+/* User Dropdown Menu */
+.user-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: linear-gradient(135deg, #1A1A2E 0%, #16213e 100%);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    min-width: 280px;
+    padding: 0;
+    margin-top: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255,255,255,0.1);
+    overflow: hidden;
+}
+
+.user-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    z-index: 1002;
+}
+
+.user-dropdown-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    text-align: center;
+    position: relative;
+}
+
+.user-dropdown-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.user-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    border: 3px solid rgba(255,255,255,0.3);
+    position: relative;
+    z-index: 1;
+}
+
+.user-avatar i {
+    font-size: 24px;
+    color: white;
+}
+
+.user-name {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    position: relative;
+    z-index: 1;
+}
+
+.user-email {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 1;
+}
+
+.user-dropdown-content {
+    padding: 0;
+}
+
+.user-balance {
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.balance-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.balance-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(45deg, #feca57, #ff9800);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+}
+
+.balance-text {
+    color: #f1f5f9;
+    font-size: 0.9rem;
+}
+
+.balance-amount {
+    color: #feca57;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.topup-btn {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    color: white;
     border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.topup-btn:hover {
+    opacity: 0.9;
+}
+
+.user-menu-items {
+    padding: 10px 0;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    color: #f1f5f9;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.menu-item:hover {
+    background: rgba(255,255,255,0.05);
+    color: white;
+}
+
+.menu-item i {
+    width: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.menu-item.logout {
+    color: #ff6b6b;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    margin-top: 5px;
+}
+
+.menu-item.logout:hover {
+    background: rgba(255,107,107,0.1);
+    color: #ff5252;
 }
 
 .hamburger:hover {
-    transform: scale(1.1);
+    opacity: 0.8;
 }
 
 .hamburger:active {
-    transform: scale(0.95);
+    opacity: 0.6;
 }
 
 .bar {
@@ -273,8 +482,87 @@ body {
     animation: hamburgerPulse 0.6s ease-in-out;
 }
 
-/* Mobile responsive adjustments */
+/* Mobile Cart Positioning - Global */
 @media (max-width: 768px) {
+    /* Show cart as fixed button */
+    .nav-cart {
+        position: fixed !important;
+        bottom: 20px !important;
+        left: 20px !important;
+        z-index: 1000 !important;
+        background: linear-gradient(45deg, #667eea, #764ba2) !important;
+        border-radius: 50% !important;
+        width: 60px !important;
+        height: 60px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3) !important;
+        transition: all 0.3s ease !important;
+        margin: 0 !important;
+        color: white !important;
+        font-size: 1.2rem !important;
+        cursor: pointer !important;
+        text-decoration: none !important;
+        padding: 0 !important;
+    }
+
+    .nav-cart:hover {
+        transform: scale(1.1) !important;
+        box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4) !important;
+        color: white !important;
+        background: linear-gradient(45deg, #667eea, #764ba2) !important;
+    }
+
+    .nav-cart .cart-count {
+        position: absolute !important;
+        top: -5px !important;
+        right: -5px !important;
+        background: #ff4757 !important;
+        color: white !important;
+        border-radius: 50% !important;
+        width: 20px !important;
+        height: 20px !important;
+        font-size: 0.7rem !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-weight: bold !important;
+    }
+
+    /* Hide cart in navbar on mobile - but show as fixed button */
+    .navbar .nav-cart {
+        display: none !important;
+    }
+    
+    /* Ensure cart shows as fixed button outside navbar */
+    body .nav-cart {
+        display: flex !important;
+    }
+}
+
+/* Desktop Cart - Show in navbar */
+@media (min-width: 769px) {
+    .nav-cart {
+        display: flex !important;
+        position: relative !important;
+        color: white !important;
+        font-size: 1.2rem !important;
+        cursor: pointer !important;
+        text-decoration: none !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+        padding: 0.5rem !important;
+        border-radius: 50% !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .nav-cart:hover {
+        color: #ffd700 !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        transform: translateY(-2px) !important;
+    }
+}
     /* Force hamburger to be visible on mobile */
     .hamburger {
         display: flex !important;
@@ -337,14 +625,6 @@ body {
         display: none;
     }
     
-    .nav-cart {
-        margin-right: 0;
-        margin-left: 1rem;
-        margin-right: 0.5rem;
-        order: 2;
-        position: relative;
-    }
-    
     .nav-brand {
         order: 1;
         flex: 1;
@@ -379,7 +659,7 @@ body {
         box-shadow: none;
         opacity: 0.8;
     }
-}
+
 
 @media (max-width: 480px) {
     .navbar {
@@ -392,11 +672,6 @@ body {
     
     .nav-brand i {
         font-size: 1.4rem;
-    }
-    
-    .nav-cart {
-        margin-left: 0.5rem;
-        margin-right: 0.5rem;
     }
     
     .hamburger {
@@ -432,11 +707,6 @@ body {
     
     .nav-brand i {
         font-size: 1.3rem;
-    }
-    
-    .nav-cart {
-        margin-left: 0.3rem;
-        margin-right: 0.3rem;
     }
     
     .hamburger {
@@ -2216,14 +2486,6 @@ body {
 
 
     
-    .nav-cart {
-        margin-right: 0;
-        margin-left: 1rem;
-        margin-right: 0.5rem;
-        order: 2;
-        position: relative;
-    }
-    
     .nav-brand {
         order: 1;
         flex: 1;
@@ -2308,11 +2570,6 @@ body {
     }
 
 
-    
-    .nav-cart {
-        margin-left: 0.5rem;
-        margin-right: 0.5rem;
-    }
     
     .hamburger {
         margin-left: 0.5rem;
@@ -2684,6 +2941,18 @@ html {
   background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
   color: white;
   box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
+}
+
+.status-badge.delivered {
+  background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
+}
+
+.status-badge.cancelled {
+  background: linear-gradient(135deg, #a0aec0 0%, #718096 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(160, 174, 192, 0.3);
 }
 
 .no-purchases {
@@ -4454,12 +4723,15 @@ html {
         left: -100%;
         top: 70px;
         flex-direction: column;
-        background-color: white;
+        background: linear-gradient(135deg, rgba(26, 26, 46, 0.98) 0%, rgba(22, 33, 62, 0.98) 100%);
         width: 100%;
         text-align: center;
         transition: 0.3s;
-        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.3);
         padding: 2rem 0;
+        gap: 1rem;
+        z-index: 999;
+        border-top: 1px solid rgba(139, 92, 246, 0.2);
     }
     
     .nav-menu.active {
@@ -4478,11 +4750,6 @@ html {
         font-size: 1.5rem;
     }
     
-    .nav-cart {
-        margin-left: 0.5rem;
-        margin-right: 0.5rem;
-    }
-    
     .nav-search {
         margin-right: 0.5rem;
     }
@@ -4494,6 +4761,62 @@ html {
     .hamburger {
         display: block;
         margin-left: 0.5rem;
+    }
+    
+    /* Ensure cart shows as fixed button on mobile */
+    .nav-cart {
+        position: fixed !important;
+        bottom: 20px !important;
+        left: 20px !important;
+        z-index: 1000 !important;
+        background: linear-gradient(45deg, #667eea, #764ba2) !important;
+        border-radius: 50% !important;
+        width: 60px !important;
+        height: 60px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3) !important;
+        transition: all 0.3s ease !important;
+        margin: 0 !important;
+        color: white !important;
+        font-size: 1.2rem !important;
+        cursor: pointer !important;
+        text-decoration: none !important;
+        padding: 0 !important;
+    }
+
+    .nav-cart:hover {
+        transform: scale(1.1) !important;
+        box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4) !important;
+        color: white !important;
+        background: linear-gradient(45deg, #667eea, #764ba2) !important;
+    }
+
+    .nav-cart .cart-count {
+        position: absolute !important;
+        top: -5px !important;
+        right: -5px !important;
+        background: #ff4757 !important;
+        color: white !important;
+        border-radius: 50% !important;
+        width: 20px !important;
+        height: 20px !important;
+        font-size: 0.7rem !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-weight: bold !important;
+    }
+
+    /* Hide cart in navbar on mobile - but show as fixed button */
+    .navbar .nav-cart {
+        display: none !important;
+    }
+    
+    /* Ensure cart shows as fixed button outside navbar */
+    body .nav-cart {
+        display: flex !important;
     }
     
     /* Hero Section Mobile */

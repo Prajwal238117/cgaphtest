@@ -76,8 +76,9 @@ function wireEmailRegistration() {
       try { await sendEmailVerification(user); } catch {}
       await setDoc(doc(db, 'users', user.uid), {
         firstName, lastName, email, phone,
+        profitPercentage: 0, // Default to 0, admin will set this later
         role: 'user', // Default role for new users
-        walletBalance: 0,
+        balance: 0, // Single field for wallet, profit, and balance
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp()
       }, { merge: true });
@@ -109,8 +110,9 @@ function wireGoogleSignup() {
         lastName: '',
         email: user.email || '',
         phone: user.phoneNumber || '',
+        profitPercentage: 0, // Default to 0 for Google signup
         role: 'user', // Default role for new users
-        walletBalance: 0,
+        balance: 0, // Single field for wallet, profit, and balance
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp()
       }, { merge: true });
@@ -139,8 +141,9 @@ document.addEventListener('DOMContentLoaded', () => {
         lastName: '',
         email: user.email || '',
         phone: user.phoneNumber || '',
+        profitPercentage: 0, // Default to 0 for Google redirect signup
         role: 'user', // Default role for new users
-        walletBalance: 0,
+        balance: 0, // Single field for wallet, profit, and balance
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp()
       }, { merge: true });

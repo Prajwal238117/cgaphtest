@@ -15,7 +15,7 @@ export async function getWalletBalance(userId) {
   const snap = await getDoc(ref);
   if (!snap.exists()) return 0;
   const data = snap.data();
-  const bal = Number(data.walletBalance || 0);
+  const bal = Number(data.balance || 0);
   return Number.isFinite(bal) ? bal : 0;
 }
 
@@ -29,9 +29,9 @@ export async function creditWallet(userId, amount, meta = {}) {
 
   await runTransaction(db, async (transaction) => {
     const userSnap = await transaction.get(userRef);
-    const current = userSnap.exists() ? Number(userSnap.data().walletBalance || 0) : 0;
+    const current = userSnap.exists() ? Number(userSnap.data().balance || 0) : 0;
     const next = current + amt;
-    transaction.set(userRef, { walletBalance: next, updatedAt: serverTimestamp() }, { merge: true });
+    transaction.set(userRef, { balance: next, updatedAt: serverTimestamp() }, { merge: true });
   });
 
   await addDoc(txCol, {
@@ -53,10 +53,10 @@ export async function spendFromWallet(userId, amount, meta = {}) {
 
   await runTransaction(db, async (transaction) => {
     const userSnap = await transaction.get(userRef);
-    const current = userSnap.exists() ? Number(userSnap.data().walletBalance || 0) : 0;
+    const current = userSnap.exists() ? Number(userSnap.data().balance || 0) : 0;
     if (current < amt) throw new Error('INSUFFICIENT_FUNDS');
     const next = current - amt;
-    transaction.set(userRef, { walletBalance: next, updatedAt: serverTimestamp() }, { merge: true });
+    transaction.set(userRef, { balance: next, updatedAt: serverTimestamp() }, { merge: true });
   });
 
   await addDoc(txCol, {
@@ -76,7 +76,8 @@ export async function ensureUserDoc(user) {
     await setDoc(userRef, {
       email: user.email || '',
       displayName: user.displayName || '',
-      walletBalance: 0,
+      profitPercentage: 0, // Default to 0 for new users
+      balance: 0, // Single field for wallet, profit, and balance
       role: 'user',
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()

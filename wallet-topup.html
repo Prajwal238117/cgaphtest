@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet Top-up - CGAPH</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .wallet-topup-container {
+            max-width: 600px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+        }
+
+        .wallet-topup-card {
+            background: linear-gradient(135deg, #1A1A2E 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .wallet-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .wallet-header h1 {
+            color: #f1f5f9;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .wallet-header p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        .current-balance {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .balance-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .balance-amount {
+            color: #feca57;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .topup-form {
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #f1f5f9;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .amount-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+            color: #f1f5f9;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .amount-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .amount-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .amount-option {
+            padding: 10px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            color: #f1f5f9;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .amount-option:hover,
+        .amount-option.active {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .payment-methods {
+            margin-bottom: 30px;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method:hover,
+        .payment-method.active {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .payment-method input[type="radio"] {
+            margin-right: 15px;
+            transform: scale(1.2);
+        }
+
+        .payment-method-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .esewa-icon {
+            background: linear-gradient(45deg, #53a318, #4a8c15);
+            color: white;
+        }
+
+        .khalti-icon {
+            background: linear-gradient(45deg, #5c2d91, #4a1f73);
+            color: white;
+        }
+
+        .payment-method-info {
+            flex: 1;
+        }
+
+        .payment-method-name {
+            color: #f1f5f9;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .payment-method-desc {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .proceed-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .proceed-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .proceed-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .info-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-box h4 {
+            color: #60a5fa;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .info-box p {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .wallet-topup-container {
+                margin: 80px auto 30px;
+                padding: 0 15px;
+            }
+
+            .wallet-topup-card {
+                padding: 30px 20px;
+            }
+
+            .wallet-header h1 {
+                font-size: 2rem;
+            }
+
+            .amount-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-gamepad"></i>
+                <span>CGAPH</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="all-products.html" class="nav-link">Products</a></li>
+                <li><a href="index.html#latest-purchases" class="nav-link">Recent</a></li>
+                <li><a href="features.html" class="nav-link">Features</a></li>
+            </ul>
+            <div class="nav-cart">
+                <a href="cart.html">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+            <div class="nav-auth">
+                <a href="login.html" class="nav-link">Login</a>
+                <a href="register.html" class="nav-link">Register</a>
+            </div>
+            <div class="hamburger" onclick="toggleUserDropdown()">
+                <i class="fas fa-user"></i>
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="user-dropdown-header">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-name" id="dropdownUserName">Loading...</div>
+                        <div class="user-email" id="dropdownUserEmail">Loading...</div>
+                    </div>
+                    <div class="user-dropdown-content">
+                        <div class="user-balance">
+                            <div class="balance-info">
+                                <div class="balance-icon">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div>
+                                    <div class="balance-text">Wallet Balance</div>
+                                    <div class="balance-amount" id="dropdownBalance">Loading...</div>
+                                </div>
+                            </div>
+                            <button class="topup-btn" onclick="window.location.href='wallet-topup.html'">Topup</button>
+                        </div>
+                        <div class="user-menu-items">
+                            <a href="profile.html" class="menu-item">
+                                <i class="fas fa-user-circle"></i>
+                                <span>Profile</span>
+                            </a>
+                            <a href="index.html#latest-purchases" class="menu-item">
+                                <i class="fas fa-history"></i>
+                                <span>Transaction History</span>
+                            </a>
+                            <a href="contact.html" class="menu-item">
+                                <i class="fas fa-question-circle"></i>
+                                <span>Help Center</span>
+                            </a>
+                            <button class="menu-item logout" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Wallet Top-up Section -->
+    <section class="wallet-topup-container">
+        <div class="wallet-topup-card">
+            <div class="wallet-header">
+                <h1><i class="fas fa-wallet"></i> Wallet Top-up</h1>
+                <p>Add money to your wallet for easy purchases</p>
+            </div>
+
+            <div class="current-balance">
+                <div class="balance-label">Current Balance</div>
+                <div class="balance-amount" id="currentBalance">Rs 0.00</div>
+            </div>
+
+            <div class="info-box">
+                <h4><i class="fas fa-info-circle"></i> How it works:</h4>
+                <p>1. Enter the amount you want to add to your wallet<br>
+                2. Choose your payment method and proceed<br>
+                3. Complete the payment<br>
+                4. Admin will verify your payment and add money to your wallet</p>
+            </div>
+
+            <form class="topup-form" id="topupForm">
+                <div class="form-group">
+                    <label for="amount">Amount to Add (Rs)</label>
+                    <input type="number" id="amount" class="amount-input" placeholder="Enter amount" min="100" max="50000" required>
+                    <div class="amount-options">
+                        <div class="amount-option" data-amount="500">Rs 500</div>
+                        <div class="amount-option" data-amount="1000">Rs 1,000</div>
+                        <div class="amount-option" data-amount="2000">Rs 2,000</div>
+                        <div class="amount-option" data-amount="5000">Rs 5,000</div>
+                        <div class="amount-option" data-amount="10000">Rs 10,000</div>
+                        <div class="amount-option" data-amount="20000">Rs 20,000</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <div class="payment-methods">
+                        <div class="payment-method" data-method="esewa">
+                            <input type="radio" name="paymentMethod" value="esewa" id="esewa" required>
+                            <div class="payment-method-icon esewa-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="payment-method-info">
+                                <div class="payment-method-name">eSewa</div>
+                                <div class="payment-method-desc">Pay with eSewa wallet or bank transfer</div>
+                            </div>
+                        </div>
+                        <div class="payment-method" data-method="khalti">
+                            <input type="radio" name="paymentMethod" value="khalti" id="khalti" required>
+                            <div class="payment-method-icon khalti-icon">
+                                <i class="fas fa-credit-card"></i>
+                            </div>
+                            <div class="payment-method-info">
+                                <div class="payment-method-name">Khalti</div>
+                                <div class="payment-method-desc">Pay with Khalti wallet or bank transfer</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="proceed-btn" id="proceedBtn">
+                    <i class="fas fa-arrow-right"></i> Proceed to Payment
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>CGAPH</h3>
+                <p>Your trusted source for digital gaming and entertainment content.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/profile.php?id=61581082588575" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.youtube.com/@cgaph" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.tiktok.com/@cgaph?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://discord.gg/xfYVjDW3Bc" target="_blank" rel="noopener" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="all-products.html">Products</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="refund.html">Refund Policy</a></li>
+                    <li><a href="contact.html">Help Center</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Info</h4>
+                <p><i class="fas fa-envelope"></i> support@cgaph.com</p>
+                <p><i class="fas fa-phone"></i> +977 9767345557</p>
+                <p><i class="fas fa-map-marker-alt"></i> Kathmandu, Nepal</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 CGAPH. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, doc, getDoc, addDoc, collection, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAnaTN0WxUy5RAzHJZPTaitirFCeXdiqTU",
+            authDomain: "cgaphtest.firebaseapp.com",
+            projectId: "cgaphtest",
+            storageBucket: "cgaphtest.firebasestorage.app",
+            messagingSenderId: "253404156717",
+            appId: "1:253404156717:web:6a71ae159caf7e489139a4",
+            measurementId: "G-5RSXZPF5MS"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        window.auth = auth;
+        window.db = db;
+        window.onAuthStateChanged = onAuthStateChanged;
+        window.serverTimestamp = serverTimestamp;
+        window.addDoc = addDoc;
+        window.collection = collection;
+
+        async function getWalletBalance() {
+            try {
+                const user = auth.currentUser;
+                if (!user) return 0;
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    return userData.balance || 0;
+                }
+                return 0;
+            } catch (error) {
+                console.error('Error getting wallet balance:', error);
+                return 0;
+            }
+        }
+
+        window.getWalletBalance = getWalletBalance;
+
+        async function logout() {
+            try {
+                await signOut(auth);
+                window.location.href = 'index.html';
+            } catch (error) {
+                console.error('Error signing out:', error);
+            }
+        }
+
+        window.logout = logout;
+    </script>
+
+    <script type="module" src="./toast.js"></script>
+    <script type="module" src="./loading.js"></script>
+
+    <!-- Wallet Top-up JavaScript -->
+    <script>
+        // User dropdown functions
+        function toggleUserDropdown() {
+            const user = window.auth ? window.auth.currentUser : null;
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+            const dropdown = document.getElementById('userDropdown');
+            if (dropdown) {
+                dropdown.classList.toggle('active');
+            }
+        }
+
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('userDropdown');
+            const hamburger = document.querySelector('.hamburger');
+            if (dropdown && hamburger && !hamburger.contains(event.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        function updateUserDropdown() {
+            const user = window.auth ? window.auth.currentUser : null;
+            const dropdown = document.getElementById('userDropdown');
+            if (user && dropdown) {
+                const displayName = user.displayName || user.email?.split('@')[0] || 'User';
+                document.getElementById('dropdownUserName').textContent = displayName;
+                document.getElementById('dropdownUserEmail').textContent = user.email || '';
+                if (window.getWalletBalance) {
+                    window.getWalletBalance().then(balance => {
+                        document.getElementById('dropdownBalance').textContent = `Rs ${balance.toFixed(2)}`;
+                        document.getElementById('currentBalance').textContent = `Rs ${balance.toFixed(2)}`;
+                    }).catch(error => {
+                        console.error('Error getting wallet balance:', error);
+                        document.getElementById('dropdownBalance').textContent = 'Rs 0.00';
+                        document.getElementById('currentBalance').textContent = 'Rs 0.00';
+                    });
+                } else {
+                    document.getElementById('dropdownBalance').textContent = 'Rs 0.00';
+                    document.getElementById('currentBalance').textContent = 'Rs 0.00';
+                }
+                dropdown.style.display = 'block';
+            } else {
+                if (dropdown) {
+                    dropdown.style.display = 'none';
+                }
+            }
+        }
+
+        // Amount options
+        document.querySelectorAll('.amount-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.amount-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById('amount').value = this.dataset.amount;
+            });
+        });
+
+        // Payment method selection
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', function() {
+                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('active'));
+                this.classList.add('active');
+                this.querySelector('input[type="radio"]').checked = true;
+            });
+        });
+
+        // Form submission
+        document.getElementById('topupForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const user = window.auth ? window.auth.currentUser : null;
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const amount = parseFloat(document.getElementById('amount').value);
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            const proceedBtn = document.getElementById('proceedBtn');
+
+            if (!amount || amount < 100) {
+                if (window.showToast) {
+                    window.showToast('Please enter a valid amount (minimum Rs 100)', 'error');
+                } else {
+                    alert('Please enter a valid amount (minimum Rs 100)');
+                }
+                return;
+            }
+
+            if (!paymentMethod) {
+                if (window.showToast) {
+                    window.showToast('Please select a payment method', 'error');
+                } else {
+                    alert('Please select a payment method');
+                }
+                return;
+            }
+
+            proceedBtn.disabled = true;
+            proceedBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+            try {
+                // Ensure user is authenticated
+                if (!user || !user.uid) {
+                    throw new Error('User not authenticated');
+                }
+
+                // Wait for auth to be ready
+                await new Promise(resolve => setTimeout(resolve, 100));
+
+                // Create wallet top-up request
+                const topupData = {
+                    userId: user.uid,
+                    userEmail: user.email,
+                    userName: user.displayName || user.email?.split('@')[0] || 'User',
+                    amount: amount,
+                    paymentMethod: paymentMethod,
+                    status: 'pending',
+                    createdAt: window.serverTimestamp(),
+                    type: 'wallet_topup'
+                };
+
+                console.log('Creating wallet top-up with data:', topupData);
+                console.log('User authenticated:', !!user);
+                console.log('User UID:', user.uid);
+                
+                const topupRef = await window.addDoc(window.collection(window.db, 'walletTopups'), topupData);
+                
+                // Redirect to payment page
+                window.location.href = `payment.html?topupId=${topupRef.id}&amount=${amount}&method=${paymentMethod}&type=wallet`;
+                
+            } catch (error) {
+                console.error('Error creating wallet top-up request:', error);
+                if (window.showToast) {
+                    window.showToast('Error processing request. Please try again.', 'error');
+                } else {
+                    alert('Error processing request. Please try again.');
+                }
+                proceedBtn.disabled = false;
+                proceedBtn.innerHTML = '<i class="fas fa-arrow-right"></i> Proceed to Payment';
+            }
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                if (window.auth && window.onAuthStateChanged) {
+                    window.onAuthStateChanged(window.auth, (user) => {
+                        if (!user) {
+                            window.location.href = 'login.html';
+                            return;
+                        }
+                        updateUserDropdown();
+                    });
+                } else {
+                    window.location.href = 'login.html';
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
