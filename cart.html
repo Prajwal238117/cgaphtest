@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>Shopping Cart - CGAPH | Game Top-ups & Gift Cards Nepal</title>
+    <meta name="title" content="Shopping Cart - CGAPH | Game Top-ups & Gift Cards Nepal">
+    <meta name="description" content="Your shopping cart at CGAPH. Review your selected game top-ups, gift cards, and subscriptions. Secure checkout with instant delivery in Nepal.">
+    <meta name="keywords" content="shopping cart cgaph, cart nepal, game top up cart, gift card cart, pubg uc cart, free fire diamonds cart, netflix cart, spotify cart, secure checkout nepal">
+    <meta name="author" content="CGAPH">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="language" content="English">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cgaph.com/cart.html">
+    <meta property="og:title" content="Shopping Cart - CGAPH | Game Top-ups & Gift Cards Nepal">
+    <meta property="og:description" content="Your shopping cart at CGAPH. Review your selected game top-ups, gift cards, and subscriptions.">
+    <meta property="og:image" content="https://cgaph.com/logo.png">
+    <meta property="og:site_name" content="CGAPH">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://cgaph.com/cart.html">
+    <meta property="twitter:title" content="Shopping Cart - CGAPH | Game Top-ups & Gift Cards Nepal">
+    <meta property="twitter:description" content="Your shopping cart at CGAPH. Review your selected game top-ups, gift cards, and subscriptions.">
+    <meta property="twitter:image" content="https://cgaph.com/logo.png">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="msapplication-TileColor" content="#667eea">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://cgaph.com/cart.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="cart-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <img src="logo.png" alt="CGAPH Logo" class="nav-logo">
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="all-products.html" class="nav-link">Products</a></li>
+                <li><a href="index.html#latest-purchases" class="nav-link">Recent</a></li>
+                <li><a href="features.html" class="nav-link">Features</a></li>
+            </ul>
+            <div class="nav-cart">
+                <a href="cart.html">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+            <div class="nav-auth">
+                <a href="login.html" class="nav-link">Login</a>
+                <a href="register.html" class="nav-link">Register</a>
+            </div>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+
+
+    <!-- Cart Section -->
+    <section class="cart-section">
+        <div class="cart-container">
+            <div class="cart-header">
+                <h1>Shopping Cart</h1>
+                <p id="cart-count">0 items in your cart</p>
+            </div>
+            
+            <div class="cart-content">
+                <div class="cart-items" id="cartItems">
+                    <!-- Cart items will be loaded here -->
+                </div>
+                
+                <div class="cart-summary">
+                    <div class="summary-card">
+                        <h3>Order Summary</h3>
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span id="subtotal">Rs 0.00</span>
+                        </div>
+                        
+                        <!-- Coupon Section -->
+                        <div class="coupon-section">
+                            <div class="coupon-input-group">
+                                <input type="text" id="couponCode" placeholder="Enter coupon code" class="coupon-input">
+                                <button type="button" id="applyCouponBtn" class="apply-coupon-btn">
+                                    <i class="fas fa-tag"></i> Apply
+                                </button>
+                            </div>
+                            <div id="couponMessage" class="coupon-message"></div>
+                        </div>
+                        
+                        <!-- Applied Coupon Info -->
+                        <div class="applied-coupon-info" id="appliedCouponInfo" style="display: none;">
+                            <div class="coupon-badge">
+                                <i class="fas fa-tag"></i>
+                                <span id="couponCodeDisplay"></span>
+                                <button type="button" id="removeCouponBtn" class="remove-coupon-btn">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-row" id="discountRow" style="display: none;">
+                            <span>Discount:</span>
+                            <span id="discountAmount">-Rs 0.00</span>
+                        </div>
+                        
+                        <div class="summary-row total">
+                            <span>Total:</span>
+                            <span id="total">Rs 0.00</span>
+                        </div>
+                        
+                        <!-- Extra Fields Section -->
+
+                        
+                        <button class="checkout-btn" id="checkoutBtn" disabled>
+                            <i class="fas fa-credit-card"></i>
+                            Proceed to Checkout
+                        </button>
+                        <div class="cart-actions">
+                            <a href="index.html" class="continue-shopping">
+                                <i class="fas fa-arrow-left"></i>
+                                Continue Shopping
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Empty Cart State -->
+            <div class="empty-cart" id="emptyCart" style="display: none;">
+                <div class="empty-cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <h2>Your cart is empty</h2>
+                <p>Looks like you haven't added any items to your cart yet.</p>
+                <a href="index.html" class="btn-primary">
+                    <i class="fas fa-shopping-bag"></i>
+                    Start Shopping
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>CGAPH</h3>
+                <p>Your trusted source for digital gaming and entertainment content.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/profile.php?id=61581082588575" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.youtube.com/@cgaph" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.tiktok.com/@cgaph?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://discord.gg/xfYVjDW3Bc" target="_blank" rel="noopener" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="all-products.html">Products</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="refund.html">Refund Policy</a></li>
+                    <li><a href="contact.html">Help Center</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Info</h4>
+                <p><i class="fas fa-envelope"></i> support@cgaph.com</p>
+                <p><i class="fas fa-phone"></i> +977 9767345557</p>
+                <p><i class="fas fa-map-marker-alt"></i> Kathmandu, Nepal</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 CGAPH. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="./toast.js"></script>
+    <script type="module" src="./cart.js"></script>
+    <script type="module" src="./loading.js"></script>
+    <script src="./marquee-handler.js"></script>
+</body>
+</html>

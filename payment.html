@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>Secure Payment - CGAPH | Game Top-ups & Gift Cards Nepal</title>
+    <meta name="title" content="Secure Payment - CGAPH | Game Top-ups & Gift Cards Nepal">
+    <meta name="description" content="Complete your purchase securely at CGAPH. Multiple payment options including eSewa, Khalti, IME Pay, and bank transfer. Instant delivery of game top-ups and gift cards in Nepal.">
+    <meta name="keywords" content="secure payment cgaph, payment nepal, esewa payment, khalti payment, ime pay, bank transfer nepal, secure checkout, game top up payment, gift card payment, instant delivery nepal">
+    <meta name="author" content="CGAPH">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="language" content="English">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cgaph.com/payment.html">
+    <meta property="og:title" content="Secure Payment - CGAPH | Game Top-ups & Gift Cards Nepal">
+    <meta property="og:description" content="Complete your purchase securely at CGAPH. Multiple payment options including eSewa, Khalti, IME Pay, and bank transfer.">
+    <meta property="og:image" content="https://cgaph.com/logo.png">
+    <meta property="og:site_name" content="CGAPH">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://cgaph.com/payment.html">
+    <meta property="twitter:title" content="Secure Payment - CGAPH | Game Top-ups & Gift Cards Nepal">
+    <meta property="twitter:description" content="Complete your purchase securely at CGAPH. Multiple payment options including eSewa, Khalti, IME Pay, and bank transfer.">
+    <meta property="twitter:image" content="https://cgaph.com/logo.png">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="msapplication-TileColor" content="#667eea">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://cgaph.com/payment.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="payment-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-gamepad"></i>
+                <span>CGAPH</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="all-products.html" class="nav-link">Products</a></li>
+                <li><a href="index.html#latest-purchases" class="nav-link">Recent</a></li>
+                <li><a href="features.html" class="nav-link">Features</a></li>
+            </ul>
+            <div class="nav-cart">
+                <a href="cart.html">
+                <i class="fas fa-shopping-cart"></i>
+                  <span class="cart-count">0</span>
+                </a>
+              </div>
+              <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    
+
+            <div class="checkout-content">
+                <!-- Payment Form -->
+                <div class="payment-form-section">
+                    <div class="section-header">
+                        <h2>Payment Information</h2>
+                        <p>Complete your purchase securely</p>
+                    </div>
+
+                    <form class="payment-form" id="paymentForm">
+                        <!-- Account Information -->
+                        <div class="form-section">
+                            <h3>Account</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="fullName">Full Name</label>
+                                    <input type="text" id="fullName" name="fullName" placeholder="Your Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone" placeholder="98XXXXXXXX" required>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <!-- Payment Method Selection (Manual QR) -->
+                        <div class="form-section">
+                            <h3>Payment Method</h3>
+                            <div class="payment-methods">
+                                <label class="payment-method">
+                                    <input type="radio" name="paymentMethod" value="esewa" checked>
+                                    <div class="method-content"><span>eSewa</span></div>
+                                </label>
+                                <label class="payment-method">
+                                    <input type="radio" name="paymentMethod" value="khalti">
+                                    <div class="method-content"><span>Khalti</span></div>
+                                </label>
+                                <label class="payment-method">
+                                    <input type="radio" name="paymentMethod" value="imepay">
+                                    <div class="method-content"><span>IME Pay</span></div>
+                                </label>
+                                <label class="payment-method">
+                                    <input type="radio" name="paymentMethod" value="wallet">
+                                    <div class="method-content"><span>Wallet</span></div>
+                                </label>
+                            </div>
+                            <div class="form-group" id="walletBalanceRow" style="display:none">
+                                <label>Wallet Balance</label>
+                                <div id="walletBalanceDisplay" class="wallet-balance-display">Rs 0.00</div>
+                                <small class="form-help">Use your CGAPH wallet to pay instantly.</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Scan to Pay
+                                    <small class="form-help">Please scan the QR code to pay and use your name in remarks</small>
+                                </label>
+                                <img id="qrPreview" alt="QR" style="max-width:260px;border-radius:8px;border:1px solid #eee;display:block">
+                            </div>
+                        </div>
+
+                        <!-- Payment Screenshot Upload -->
+                        <div class="form-section" id="screenshotSection">
+                            <h3>Payment Screenshot</h3>
+                                <div class="form-group">
+                                <label for="paymentScreenshot">Upload Screenshot (JPG/PNG)</label>
+                                <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" required>
+                                <small class="form-help">Maximum file size: 2MB. For best results, use JPG images under 1MB.</small>
+                                </div>
+                                <div class="form-group">
+                                <img id="screenshotPreview" alt="Screenshot Preview" style="display:none; max-width:100%; border-radius:8px; border:1px solid #eee;" />
+                            </div>
+                        </div>
+
+                        
+
+                        <!-- Terms and Conditions -->
+                        <div class="form-section">
+                            <!-- Terms checkbox removed -->
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-summary-section">
+                    <div class="order-summary">
+                        <div class="summary-header">
+                            <h3>Order Summary</h3>
+                            <a href="cart.html" class="edit-cart">Edit Cart</a>
+                        </div>
+
+                        <div id="summaryItems" class="cart-items"></div>
+
+                        <div class="summary-totals">
+                            <div class="total-row">
+                                <span>Subtotal</span>
+                                <span id="summarySubtotal">Rs 0.00</span>
+                            </div>
+                            
+                            <!-- Coupon Discount Row -->
+                            <div class="total-row discount" id="summaryDiscount" style="display: none;">
+                                <span>Discount</span>
+                                <span id="summaryDiscountAmount">-Rs 0.00</span>
+                            </div>
+                            
+                            <div class="total-row total">
+                                <span>Total</span>
+                                <span id="summaryTotal">Rs 0.00</span>
+                            </div>
+                        </div>
+
+
+
+                        <button type="submit" form="paymentForm" class="btn-complete-order">
+                            <i class="fas fa-lock"></i>
+                            <span id="completeLabel">Complete Order</span>
+                        </button>
+
+                        <div class="payment-security">
+                            <div class="security-badges">
+                                <i class="fas fa-shield-alt"></i>
+                                <i class="fas fa-lock"></i>
+                                <i class="fas fa-credit-card"></i>
+                            </div>
+                            <p>Your payment is protected by SSL encryption</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>CGAPH</h3>
+                <p>Your trusted source for digital gaming and entertainment content.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/profile.php?id=61581082588575" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.youtube.com/@cgaph" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.tiktok.com/@cgaph?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://discord.gg/xfYVjDW3Bc" target="_blank" rel="noopener" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="all-products.html">Products</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="refund.html">Refund Policy</a></li>
+                    <li><a href="contact.html">Help Center</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Info</h4>
+                <p><i class="fas fa-envelope"></i> support@cgaph.com</p>
+                <p><i class="fas fa-phone"></i> +977 9767345557</p>
+                <p><i class="fas fa-map-marker-alt"></i> Kathmandu, Nepal</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 CGAPH. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="./toast.js"></script>
+    <script type="module" src="./cart.js"></script>
+    <!-- Page logic (ES modules) -->
+    <script type="module" src="./payment.js"></script>
+    <script type="module" src="./loading.js"></script>
+    <script src="./marquee-handler.js"></script>
+</body>
+</html>

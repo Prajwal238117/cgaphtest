@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>All Products - CGAPH | Game Top-ups, Gift Cards & Subscriptions in Nepal</title>
+    <meta name="title" content="All Products - CGAPH | Game Top-ups, Gift Cards & Subscriptions in Nepal">
+    <meta name="description" content="Browse our complete collection of game top-ups, gift cards, and subscriptions. PUBG UC, Free Fire diamonds, Netflix, Spotify premium, Steam gift cards. Best prices in Nepal with instant delivery.">
+    <meta name="keywords" content="all products cgaph, game top ups nepal, pubg uc nepal, free fire diamonds nepal, netflix subscription nepal, spotify premium nepal, steam gift cards nepal, gift cards nepal, mobile gaming nepal, online recharge nepal">
+    <meta name="author" content="CGAPH">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cgaph.com/all-products.html">
+    <meta property="og:title" content="All Products - CGAPH | Game Top-ups, Gift Cards & Subscriptions in Nepal">
+    <meta property="og:description" content="Browse our complete collection of game top-ups, gift cards, and subscriptions. PUBG UC, Free Fire diamonds, Netflix, Spotify premium, Steam gift cards. Best prices in Nepal with instant delivery.">
+    <meta property="og:image" content="https://cgaph.com/logo.png">
+    <meta property="og:site_name" content="CGAPH">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://cgaph.com/all-products.html">
+    <meta property="twitter:title" content="All Products - CGAPH | Game Top-ups, Gift Cards & Subscriptions in Nepal">
+    <meta property="twitter:description" content="Browse our complete collection of game top-ups, gift cards, and subscriptions. PUBG UC, Free Fire diamonds, Netflix, Spotify premium, Steam gift cards. Best prices in Nepal with instant delivery.">
+    <meta property="twitter:image" content="https://cgaph.com/logo.png">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="msapplication-TileColor" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="CGAPH Products">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://cgaph.com/all-products.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "CGAPH All Products",
+      "description": "Complete collection of game top-ups, gift cards, and subscriptions",
+      "url": "https://cgaph.com/all-products.html",
+      "numberOfItems": "100+",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "PUBG UC",
+          "description": "PUBG Mobile UC top-up for Nepal"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Free Fire Diamonds",
+          "description": "Free Fire Mobile diamonds top-up for Nepal"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Netflix Subscription",
+          "description": "Netflix premium subscription for Nepal"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <img src="logo.png" alt="CGAPH Logo" class="nav-logo">
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="all-products.html" class="nav-link">Products</a></li>
+                <li><a href="index.html#latest-purchases" class="nav-link">Recent</a></li>
+                <li><a href="features.html" class="nav-link">Features</a></li>
+            </ul>
+            <div class="nav-cart">
+                <a href="cart.html">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+            <div class="nav-auth">
+                <a href="login.html" class="nav-link">Login</a>
+                <a href="register.html" class="nav-link">Register</a>
+            </div>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+
+
+    <!-- All Products Section -->
+    <section class="all-products">
+        <div class="products-header">
+            <h1 class="page-title">All Products</h1>
+            <p class="page-subtitle">Browse our complete collection of digital products</p>
+        </div>
+        
+        <!-- Advanced Search & Filter Section -->
+        <div class="search-filter-section">
+            <!-- Mobile Filter Toggle -->
+            <div class="mobile-filter-toggle">
+                <button id="filterToggle" class="filter-toggle-btn">
+                    <i class="fas fa-filter"></i>
+                    <span>Filters</span>
+                    <span id="activeFiltersCount" class="active-filters-count" style="display: none;">0</span>
+                </button>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="productsSearch" placeholder="Search products by name, description, or category..." class="products-search">
+                    <button type="button" id="clearSearch" class="clear-search-btn" style="display: none;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="search-suggestions" id="searchSuggestions"></div>
+            </div>
+
+            <!-- Sort Options -->
+            <div class="controls-row">
+                <div class="sort-container">
+                    <label for="sortSelect" class="sort-label">Sort by:</label>
+                    <select id="sortSelect" class="sort-select">
+                        <option value="priority">Priority & Sales</option>
+                        <option value="sales">Most Popular</option>
+                        <option value="name">Name A-Z</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="newest">Newest First</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Sidebar -->
+        <div class="filter-sidebar" id="filterSidebar">
+            <div class="filter-header">
+                <h3>Filters</h3>
+                <button id="closeFilters" class="close-filters-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="filter-content">
+                <!-- Category Filter -->
+                <div class="filter-group">
+                    <h4 class="filter-title">
+                        <i class="fas fa-tags"></i>
+                        Category
+                    </h4>
+                    <div class="filter-options" id="categoryFilters">
+                        <label class="filter-option">
+                            <input type="checkbox" value="game-topup" class="filter-checkbox">
+                            <span class="checkmark"></span>
+                            <span class="option-text">Game Top-up</span>
+                            <span class="option-count">0</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="gift-card" class="filter-checkbox">
+                            <span class="checkmark"></span>
+                            <span class="option-text">Gift Card</span>
+                            <span class="option-count">0</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="subscription" class="filter-checkbox">
+                            <span class="checkmark"></span>
+                            <span class="option-text">Subscription</span>
+                            <span class="option-count">0</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Game Filter -->
+                <div class="filter-group">
+                    <h4 class="filter-title">
+                        <i class="fas fa-gamepad"></i>
+                        Game
+                    </h4>
+                    <div class="filter-options" id="gameFilters">
+                        <!-- Dynamic game filters will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Price Range Filter -->
+                <div class="filter-group">
+                    <h4 class="filter-title">
+                        <i class="fas fa-dollar-sign"></i>
+                        Price Range
+                    </h4>
+                    <div class="price-range-container">
+                        <div class="price-inputs">
+                            <input type="number" id="minPrice" placeholder="Min" class="price-input" min="0">
+                            <span class="price-separator">-</span>
+                            <input type="number" id="maxPrice" placeholder="Max" class="price-input" min="0">
+                        </div>
+                        <div class="price-slider-container">
+                            <div class="price-slider-wrapper">
+                                <input type="range" id="priceRangeMin" min="0" max="10000" value="0" class="price-slider">
+                                <input type="range" id="priceRangeMax" min="0" max="10000" value="10000" class="price-slider">
+                            </div>
+                            <div class="price-labels">
+                                <span id="minPriceLabel">Rs 0</span>
+                                <span id="maxPriceLabel">Rs 10,000+</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Discount Filter -->
+                <div class="filter-group">
+                    <h4 class="filter-title">
+                        <i class="fas fa-percentage"></i>
+                        Discount
+                    </h4>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" value="discount" class="filter-checkbox">
+                            <span class="checkmark"></span>
+                            <span class="option-text">On Sale</span>
+                            <span class="option-count">0</span>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="filter-footer">
+                <button id="clearAllFilters" class="clear-filters-btn">
+                    <i class="fas fa-eraser"></i>
+                    Clear All
+                </button>
+                <button id="applyFilters" class="apply-filters-btn">
+                    <i class="fas fa-check"></i>
+                    Apply Filters
+                </button>
+            </div>
+        </div>
+
+        <!-- Filter Overlay for Mobile -->
+        <div class="filter-overlay" id="filterOverlay"></div>
+        
+        <div class="products-container">
+            <div id="allProductsList" class="products-list">
+                <div class="loading-spinner">
+                    <div class="spinner-icon">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>CGAPH</h3>
+                <p>Your trusted source for digital gaming and entertainment content.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/profile.php?id=61581082588575" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.youtube.com/@cgaph" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.tiktok.com/@cgaph?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://discord.gg/xfYVjDW3Bc" target="_blank" rel="noopener" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="all-products.html">Products</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="refund.html">Refund Policy</a></li>
+                    <li><a href="contact.html">Help Center</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Info</h4>
+                <p><i class="fas fa-envelope"></i> support@cgaph.com</p>
+                <p><i class="fas fa-phone"></i> +977 9767345557</p>
+                <p><i class="fas fa-map-marker-alt"></i> Kathmandu, Nepal</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 CGAPH. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="./toast.js"></script>
+    <script type="module" src="./cart.js"></script>
+    <script type="module" src="./all-products.js"></script>
+    <script type="module" src="./loading.js"></script>
+    <script src="./marquee-handler.js"></script>
+</body>
+</html>

@@ -1,0 +1,3969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGAPH Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #48bb78;
+            --warning: #ed8936;
+            --danger: #f56565;
+            --dark: #2d3748;
+            --light: #f7fafc;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-success: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            --gradient-warning: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+            --gradient-danger: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            --gradient-info: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger-menu {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1000;
+            background: var(--gradient);
+            border: none;
+            border-radius: 12px;
+            padding: 0.75rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-menu:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .hamburger-icon {
+            display: flex;
+            flex-direction: column;
+            width: 24px;
+            height: 18px;
+            justify-content: space-between;
+        }
+
+        .hamburger-line {
+            width: 100%;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-menu.active .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .hamburger-menu.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-menu.active .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* Mobile Navigation Menu */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 280px;
+            height: 100vh;
+            background: white;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+            transition: left 0.3s ease;
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.active {
+            left: 0;
+        }
+
+        .mobile-nav-header {
+            background: var(--gradient);
+            color: white;
+            padding: 2rem 1.5rem;
+            text-align: center;
+        }
+
+        .mobile-nav-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .mobile-nav-header p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .mobile-nav-tabs {
+            padding: 1rem 0;
+        }
+
+        .mobile-nav-tab {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            color: var(--dark);
+            text-decoration: none;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .mobile-nav-tab:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-left-color: var(--primary);
+        }
+
+        .mobile-nav-tab.active {
+            background: rgba(102, 126, 234, 0.15);
+            border-left-color: var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .mobile-nav-tab i {
+            font-size: 1.2rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Overlay for mobile menu */
+        .mobile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-success {
+            background: var(--gradient-success);
+        }
+
+        .btn-warning {
+            background: var(--gradient-warning);
+        }
+
+        .btn-danger {
+            background: var(--gradient-danger);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        .admin-tabs {
+            display: flex;
+            background: white;
+            border-radius: 15px;
+            padding: 0.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+
+        /* Show hamburger menu on all screen sizes since desktop tabs are removed */
+        .admin-tabs {
+            display: none;
+        }
+
+        .admin-tab {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--dark);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-tab:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--primary);
+        }
+
+        .admin-tab.active {
+            background: var(--gradient);
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .product-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .form-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .form-header h3 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .form-header p {
+            color: #718096;
+            font-size: 0.95rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 2% auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+        }
+
+        /* Mobile-optimized modal styles */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                margin: 1% auto;
+                max-height: 98vh;
+                border-radius: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .modal-content {
+                width: 98%;
+                margin: 0.5% auto;
+                max-height: 99vh;
+                border-radius: 12px;
+            }
+        }
+
+        .modal-header {
+            background: var(--gradient);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            min-height: 60px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-right: 1rem;
+        }
+
+        .modal-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        /* Mobile modal header styles */
+        @media (max-width: 768px) {
+            .modal-header {
+                padding: 1rem 1.5rem;
+                border-radius: 15px 15px 0 0;
+                min-height: 50px;
+            }
+
+            .modal-header h3 {
+                font-size: 1.2rem;
+                margin-right: 0.75rem;
+            }
+
+            .modal-close {
+                width: 35px;
+                height: 35px;
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .modal-header {
+                padding: 0.75rem 1rem;
+                border-radius: 12px 12px 0 0;
+                min-height: 45px;
+            }
+
+            .modal-header h3 {
+                font-size: 1rem;
+                margin-right: 0.5rem;
+            }
+
+            .modal-close {
+                width: 32px;
+                height: 32px;
+                font-size: 1.2rem;
+            }
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        /* Mobile modal body styles */
+        @media (max-width: 768px) {
+            .modal-body {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .modal-body {
+                padding: 1rem;
+            }
+        }
+
+        /* Order Details Modal Specific Styles */
+        .order-items,
+        .order-summary {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .order-items h4,
+        .order-summary h4 {
+            margin: 0 0 1rem 0;
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .order-summary p {
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .order-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .order-item h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--dark);
+            font-size: 1rem;
+        }
+
+        .order-item p {
+            margin: 0.25rem 0;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .item-total {
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        .extra-fields {
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .extra-fields h5 {
+            margin: 0 0 0.5rem 0;
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        /* Mobile styles for order details */
+        @media (max-width: 768px) {
+            .order-items,
+            .order-summary {
+                margin-bottom: 1rem;
+                padding: 0.75rem;
+            }
+
+            .order-items h4,
+            .order-summary h4 {
+                font-size: 1rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .order-summary p {
+                font-size: 0.85rem;
+            }
+
+            .order-item {
+                padding: 0.75rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .order-item h4 {
+                font-size: 0.9rem;
+            }
+
+            .order-item p {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .order-items,
+            .order-summary {
+                margin-bottom: 0.75rem;
+                padding: 0.5rem;
+            }
+
+            .order-items h4,
+            .order-summary h4 {
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .order-summary p {
+                font-size: 0.8rem;
+            }
+
+            .order-item {
+                padding: 0.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .order-item h4 {
+                font-size: 0.85rem;
+            }
+
+            .order-item p {
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Screenshot Viewer Styles */
+        .screenshot-viewer {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .screenshot-viewer img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            margin-bottom: 1rem;
+        }
+
+        /* Mobile screenshot viewer */
+        @media (max-width: 768px) {
+            .screenshot-viewer {
+                padding: 0.75rem;
+            }
+
+            .screenshot-viewer img {
+                border-radius: 8px;
+                margin-bottom: 0.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .screenshot-viewer {
+                padding: 0.5rem;
+            }
+
+            .screenshot-viewer img {
+                border-radius: 6px;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Products Header Styles */
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .products-title h3 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .products-title p {
+            color: #718096;
+            margin: 0;
+        }
+
+        /* Enhanced Admin Panel Styling */
+        .admin-container {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+
+        .admin-tabs {
+            display: flex;
+            background: white;
+            border-radius: 20px;
+            padding: 0.75rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .admin-tab {
+            flex: 1;
+            padding: 1.2rem 1.8rem;
+            background: transparent;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--dark);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .admin-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .admin-tab:hover::before {
+            left: 100%;
+        }
+
+        .admin-tab:hover {
+            background: rgba(102, 126, 234, 0.08);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .admin-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .admin-tab i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .admin-tab:hover i {
+            transform: scale(1.1);
+        }
+
+        .admin-tab.active i {
+            transform: scale(1.1);
+        }
+
+        /* Enhanced Table Styling */
+        .table-wrapper {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        /* Scroll indicator for mobile tables */
+        .table-wrapper::after {
+            content: '← Scroll horizontally →';
+            position: absolute;
+            bottom: 0.5rem;
+            right: 1rem;
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        @media (max-width: 768px) {
+            .table-wrapper::after {
+                opacity: 1;
+            }
+        }
+
+        .table-wrapper:hover {
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .controls {
+            padding: 2rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            max-width: 400px;
+            padding: 1rem 1.5rem;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+
+        /* Enhanced Button Styling */
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            box-shadow: 0 8px 25px rgba(72, 187, 120, 0.3);
+        }
+
+        .btn-success:hover {
+            box-shadow: 0 15px 40px rgba(72, 187, 120, 0.4);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+            box-shadow: 0 8px 25px rgba(237, 137, 54, 0.3);
+        }
+
+        .btn-warning:hover {
+            box-shadow: 0 15px 40px rgba(237, 137, 54, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            box-shadow: 0 8px 25px rgba(245, 101, 101, 0.3);
+        }
+
+        .btn-danger:hover {
+            box-shadow: 0 15px 40px rgba(245, 101, 101, 0.4);
+        }
+
+        /* Enhanced Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem 1rem;
+            text-align: left;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        th::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 1rem;
+            right: 1rem;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 1px;
+        }
+
+        td {
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+            vertical-align: middle;
+            transition: all 0.3s ease;
+        }
+
+        tr:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            transform: scale(1.01);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Enhanced Status Badges */
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .status-badge.approved {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+        }
+
+        .status-badge.pending {
+            background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(237, 137, 54, 0.3);
+        }
+
+        .status-badge.rejected {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
+        }
+
+        /* Enhanced Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            position: relative;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .product-card-content {
+            padding: 2rem;
+        }
+
+        .product-card h3 {
+            margin-bottom: 0.75rem;
+            color: var(--dark);
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .product-card p {
+            color: #718096;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .product-card-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        /* Coupon Usage Styles */
+        .coupon-usage-info {
+            margin: 1rem 0;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .coupon-usage {
+            margin: 0 0 0.5rem 0;
+            font-size: 0.9rem;
+            color: #4a5568;
+            font-weight: 600;
+        }
+
+        .coupon-usage i {
+            color: #667eea;
+            margin-right: 0.5rem;
+        }
+
+        .coupon-details {
+            margin-top: 0.5rem;
+        }
+
+        .coupon-details small {
+            color: #718096;
+            font-size: 0.8rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .coupon-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .coupon-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+        }
+
+        .coupon-more {
+            background: #e2e8f0;
+            color: #4a5568;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Coupon Usage Count Styles */
+        .coupon-usage-count {
+            cursor: pointer;
+            text-decoration: underline;
+            color: #667eea;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .coupon-usage-count:hover {
+            color: #5a67d8;
+        }
+
+        .coupon-usage-high {
+            color: #f56565 !important;
+            font-weight: bold;
+        }
+
+        .coupon-usage-warning {
+            color: #ed8936 !important;
+            font-weight: bold;
+        }
+        
+        /* Priority Badge Styles */
+        .priority-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 0.3rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+        }
+        
+        .priority-1 { background: linear-gradient(135deg, #6b7280, #4b5563); } /* Low */
+        .priority-2 { background: linear-gradient(135deg, #3b82f6, #1d4ed8); } /* Normal */
+        .priority-3 { background: linear-gradient(135deg, #f59e0b, #d97706); } /* High */
+        .priority-4 { background: linear-gradient(135deg, #ef4444, #dc2626); } /* Very High */
+        
+        /* Featured Badge */
+        .featured-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+            z-index: 2;
+        }
+        
+        /* Sales Info */
+        .sales-info {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-align: center;
+            margin: 0.5rem 0;
+            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Enhanced Form Styling */
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-group label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        /* Enhanced Image Upload */
+        .image-upload-area {
+            border: 2px dashed rgba(102, 126, 234, 0.3);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-upload-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.05), transparent);
+            transition: left 0.5s;
+        }
+
+        .image-upload-area:hover::before {
+            left: 100%;
+        }
+
+        .image-upload-area:hover {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            transform: translateY(-2px);
+        }
+
+        .image-upload-area i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .image-upload-area:hover i {
+            transform: scale(1.1);
+        }
+
+        .image-upload-area p {
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .image-upload-area small {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        /* Enhanced Variant Items */
+        .variant-item,
+        .extra-item {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .variant-item::before,
+        .extra-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .variant-item:hover::before,
+        .extra-item:hover::before {
+            transform: scaleY(1);
+        }
+
+        .variant-item:hover,
+        .extra-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Enhanced Remove Buttons */
+        .remove-variant,
+        .remove-image {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
+        }
+
+        .remove-variant:hover,
+        .remove-image:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 6px 20px rgba(245, 101, 101, 0.4);
+        }
+
+        /* Enhanced Add Buttons */
+        .btn-add-variant {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+        }
+
+        .btn-add-variant:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+        }
+
+        /* Enhanced Product Actions */
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* Enhanced Users Header */
+        .users-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .users-title h3 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .users-title p {
+            color: #718096;
+            margin: 0;
+        }
+
+        .products-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 0.5rem;
+        }
+
+        .form-group label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .image-upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        .image-upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .image-upload-area i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .image-upload-area p {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .image-upload-area small {
+            color: #718096;
+        }
+
+        .image-preview {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-top: 1rem;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        /* Promoter Section Styles */
+        .promoters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .promoters-title h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .promoters-title h3 i {
+            color: var(--secondary);
+            font-size: 1.3rem;
+        }
+
+        .promoters-title p {
+            color: #6b7280;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        #promotersTable {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        #promotersTable th {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        #promotersTable td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        #promotersTable tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        #promotersTable tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .platform-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .platform-youtube {
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            color: white;
+        }
+
+        .platform-tiktok {
+            background: linear-gradient(135deg, #000000, #333333);
+            color: white;
+        }
+
+        .platform-instagram {
+            background: linear-gradient(135deg, #e4405f, #c13584);
+            color: white;
+        }
+
+        .platform-facebook {
+            background: linear-gradient(135deg, #1877f2, #0d5bb8);
+            color: white;
+        }
+
+        .subscriber-count {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .promoter-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .promoter-actions .btn {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8rem;
+        }
+
+        .promoter-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .promoter-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+        }
+
+        .promoter-info h4 {
+            margin: 0;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .promoter-info p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        /* Enhanced Promoter Section Styles */
+        .promoters-header {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .promoters-title h3 {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        #promotersTable {
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        #promotersTable th {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            position: relative;
+        }
+
+        #promotersTable th::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%);
+        }
+
+        .platform-badge {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .platform-badge:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .promoter-avatar {
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .promoter-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .subscriber-count {
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .promoter-actions .btn {
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .promoter-actions .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Responsive Design for Promoters */
+        @media (max-width: 768px) {
+            .promoters-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .promoters-title h3 {
+                font-size: 1.3rem;
+            }
+
+            #promotersTable {
+                font-size: 0.85rem;
+            }
+
+            #promotersTable th,
+            #promotersTable td {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .promoter-profile {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .promoter-actions {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .promoter-actions .btn {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.6rem;
+            }
+        }
+
+        /* Loading Animation for Promoters */
+        .promoters-loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .promoters-loading::after {
+            content: '';
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty State Styling */
+        .promoters-empty {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+
+        .promoters-empty i {
+            font-size: 3rem;
+            color: #cbd5e0;
+            margin-bottom: 1rem;
+        }
+
+        .promoters-empty h3 {
+            color: #4a5568;
+            margin-bottom: 0.5rem;
+        }
+
+        .promoters-empty p {
+            color: #718096;
+            margin-bottom: 1.5rem;
+        }
+
+        .remove-image {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--gradient-danger);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .remove-image:hover {
+            transform: scale(1.1);
+        }
+
+        .variant-item,
+        .extra-item {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .variant-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr auto;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .remove-variant,
+        .btn-add-variant {
+            background: var(--gradient-danger);
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-add-variant {
+            background: var(--gradient-success);
+            width: auto;
+            padding: 0.5rem 1rem;
+        }
+
+        .remove-variant:hover,
+        .btn-add-variant:hover {
+            transform: scale(1.05);
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.approved {
+            background: var(--gradient-success);
+            color: white;
+        }
+
+        .status-badge.pending {
+            background: var(--gradient-warning);
+            color: white;
+        }
+
+        .status-badge.rejected {
+            background: var(--gradient-danger);
+            color: white;
+        }
+
+        .muted {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .actions .btn {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .actions .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .screenshot-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            background: none;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        .screenshot-link:hover {
+            color: #5a6fd8;
+            text-decoration: underline;
+        }
+
+        .controls {
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 300px;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-card-content {
+            padding: 1.5rem;
+        }
+
+        .product-card h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .product-card p {
+            color: #718096;
+            margin-bottom: 1rem;
+        }
+
+        .product-card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 0.5rem;
+            }
+
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+
+            .variant-grid {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .product-actions {
+                flex-direction: column;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Make tables horizontally scrollable and compressed */
+            .table-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding: 0.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            table {
+                font-size: 0.7rem;
+                min-width: 600px; /* Prevent over-compression */
+            }
+
+            th, td {
+                padding: 0.25rem 0.15rem;
+                white-space: nowrap;
+            }
+
+            /* Compress specific columns */
+            th:nth-child(1), td:nth-child(1) { min-width: 80px; }
+            th:nth-child(2), td:nth-child(2) { min-width: 60px; }
+            th:nth-child(3), td:nth-child(3) { min-width: 50px; }
+            th:nth-child(4), td:nth-child(4) { min-width: 60px; }
+            th:nth-child(5), td:nth-child(5) { min-width: 50px; }
+
+            /* Compress buttons and badges */
+            .btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.7rem;
+            }
+
+            .btn-sm {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.65rem;
+            }
+
+            .status-badge {
+                font-size: 0.6rem;
+                padding: 0.15rem 0.3rem;
+            }
+
+            .actions {
+                display: flex;
+                gap: 0.25rem;
+                flex-wrap: wrap;
+            }
+
+            .actions .btn {
+                padding: 0.2rem 0.4rem;
+                font-size: 0.6rem;
+            }
+
+            /* Modal Mobile Styles */
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+                max-height: 95vh;
+            }
+
+            .modal-header {
+                padding: 1rem 1.5rem;
+            }
+
+            .modal-header h3 {
+                font-size: 1.3rem;
+            }
+
+            .modal-body {
+                padding: 1.5rem;
+            }
+
+            .products-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .admin-container {
+                padding: 0.25rem;
+            }
+
+
+
+            .table-wrapper {
+                padding: 0.25rem;
+                margin-bottom: 0.25rem;
+            }
+
+            table {
+                font-size: 0.6rem;
+                min-width: 500px;
+            }
+
+            th, td {
+                padding: 0.15rem 0.1rem;
+                font-size: 0.6rem;
+            }
+
+            /* Ultra-compressed columns for very small screens */
+            th:nth-child(1), td:nth-child(1) { min-width: 60px; }
+            th:nth-child(2), td:nth-child(2) { min-width: 45px; }
+            th:nth-child(3), td:nth-child(3) { min-width: 40px; }
+            th:nth-child(4), td:nth-child(4) { min-width: 45px; }
+            th:nth-child(5), td:nth-child(5) { min-width: 40px; }
+
+            .btn {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.6rem;
+            }
+
+            .btn-sm {
+                padding: 0.2rem 0.4rem;
+                font-size: 0.55rem;
+            }
+
+            .status-badge {
+                font-size: 0.5rem;
+                padding: 0.1rem 0.2rem;
+            }
+
+            .actions .btn {
+                padding: 0.15rem 0.3rem;
+                font-size: 0.55rem;
+            }
+
+            .product-form {
+                padding: 0.75rem;
+            }
+
+            .controls {
+                padding: 0.5rem;
+            }
+
+            .search-input {
+                max-width: 100%;
+                padding: 0.4rem;
+                font-size: 0.7rem;
+            }
+        }
+
+        /* Order Details Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            background: var(--gradient);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .customer-info,
+        .order-items,
+        .order-summary {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: 15px;
+            border: 1px solid var(--border);
+        }
+
+        .customer-info h4,
+        .order-items h4,
+        .order-summary h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .order-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .order-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .order-item h4 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .order-item p {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-item p strong {
+            min-width: 80px;
+            color: var(--primary);
+        }
+
+        .order-item .item-total {
+            background: var(--gradient);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .order-summary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .order-summary h4 {
+            color: white !important;
+        }
+
+        .order-summary p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0.75rem;
+        }
+
+        .order-summary p strong {
+            color: white;
+            font-weight: 700;
+        }
+
+        .extra-fields {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .extra-fields h5 {
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .extra-fields p {
+            background: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .btn-order-details {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .btn-order-details:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .screenshot-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .screenshot-link:hover {
+            color: var(--secondary);
+        }
+
+        .screenshot-viewer {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .screenshot-viewer img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Table styling for payments */
+        #paymentsTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        #paymentsTable th,
+        #paymentsTable td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        #paymentsTable th {
+            background: var(--light);
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        #paymentsTable tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-approve,
+        .btn-reject {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .btn-approve {
+            background: var(--gradient-success);
+            color: white;
+        }
+
+        .btn-reject {
+            background: var(--gradient-danger);
+            color: white;
+        }
+
+        .btn-approve:hover,
+        .btn-reject:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Enhanced Table Styling */
+        .table-wrapper {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--light);
+            font-weight: 600;
+            color: var(--dark);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-active {
+            background: var(--gradient-success);
+            color: white;
+        }
+
+        .status-inactive {
+            background: var(--gradient-danger);
+            color: white;
+        }
+
+        .status-pending {
+            background: var(--gradient-warning);
+            color: white;
+        }
+
+        .status-approved {
+            background: var(--gradient-success);
+            color: white;
+        }
+
+        .status-rejected {
+            background: var(--gradient-danger);
+            color: white;
+        }
+
+        /* Action Buttons */
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8rem;
+        }
+
+        /* Header Styles */
+        .products-header,
+        .users-header,
+        .coupons-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .products-title,
+        .users-title,
+        .coupons-title h3 {
+            margin: 0;
+            color: var(--dark);
+            font-size: 1.5rem;
+        }
+
+        .products-title p,
+        .users-title p,
+        .coupons-title p {
+            margin: 0.5rem 0 0 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .table-wrapper {
+                padding: 0.5rem;
+                margin-bottom: 0.5rem;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+            }
+
+            .search-input {
+                min-width: auto;
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+
+            .products-header,
+            .users-header,
+            .coupons-header {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            table {
+                min-width: 600px;
+                font-size: 0.7rem;
+            }
+
+            th, td {
+                padding: 0.25rem 0.15rem;
+                font-size: 0.7rem;
+                white-space: nowrap;
+            }
+
+            /* Compress specific columns */
+            th:nth-child(1), td:nth-child(1) { min-width: 80px; }
+            th:nth-child(2), td:nth-child(2) { min-width: 60px; }
+            th:nth-child(3), td:nth-child(3) { min-width: 50px; }
+            th:nth-child(4), td:nth-child(4) { min-width: 60px; }
+            th:nth-child(5), td:nth-child(5) { min-width: 50px; }
+
+            .actions {
+                flex-direction: row;
+                gap: 0.25rem;
+                flex-wrap: wrap;
+            }
+
+            .btn-sm {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.65rem;
+            }
+
+            .status-badge {
+                font-size: 0.6rem;
+                padding: 0.15rem 0.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hamburger Menu -->
+    <button class="hamburger-menu" id="hamburgerMenu">
+        <div class="hamburger-icon">
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+        </div>
+    </button>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header">
+            <h2><i class="fas fa-shield-alt"></i> CGAPH Admin</h2>
+            <p>Admin Panel</p>
+        </div>
+        <div class="mobile-nav-tabs">
+            <button class="mobile-nav-tab active" data-tab="payments">
+                <i class="fas fa-credit-card"></i>
+                <span>Payments</span>
+            </button>
+            <button class="mobile-nav-tab" data-tab="products">
+                <i class="fas fa-box"></i>
+                <span>Products</span>
+            </button>
+            <button class="mobile-nav-tab" data-tab="users">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+            </button>
+            <button class="mobile-nav-tab" data-tab="coupons">
+                <i class="fas fa-tag"></i>
+                <span>Coupons</span>
+            </button>
+            <button class="mobile-nav-tab" data-tab="contacts">
+                <i class="fas fa-envelope"></i>
+                <span>Contacts</span>
+            </button>
+            <button class="mobile-nav-tab" data-tab="promoters">
+                <i class="fas fa-users"></i>
+                <span>Promoters</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <div class="admin-container">
+
+        <!-- Payments Tab -->
+        <div id="payments" class="tab-content active">
+            <div class="table-wrapper">
+                <div class="controls">
+                    <input type="text" id="searchPaymentsInput" class="search-input" placeholder="Search payments...">
+                    <button class="btn" id="refreshBtn">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+                <table id="paymentsTable">
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                            <th>Amount</th>
+                            <th>Screenshot</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="5">Loading payments...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Products Tab -->
+        <div id="products" class="tab-content">
+            <div class="products-header">
+                <div class="products-title">
+                    <h3><i class="fas fa-box"></i> Product Management</h3>
+                    <p>Manage all your products from one place</p>
+                </div>
+                <div class="products-actions">
+                    <button class="btn btn-success" onclick="openAddProductModal()">
+                        <i class="fas fa-plus"></i> Add New Product
+                    </button>
+                    <button class="btn btn-warning" onclick="openEditProductModal()" id="editProductBtn" style="display: none;">
+                        <i class="fas fa-edit"></i> Edit Product
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <div class="controls">
+                    <input type="text" id="searchProductsInput" class="search-input" placeholder="Search products...">
+                    <button class="btn" id="refreshProductsBtn">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+                <div class="products-grid" id="productsGrid">
+                    <div>Loading products...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Users Tab -->
+        <div id="users" class="tab-content">
+            <div class="users-header">
+                <div class="users-title">
+                    <h3><i class="fas fa-users"></i> User Management</h3>
+                    <p>Manage user accounts and roles</p>
+                </div>
+                <button class="btn btn-success" onclick="openAddUserModal()">
+                    <i class="fas fa-user-plus"></i> Add New User
+                </button>
+            </div>
+            
+            <div class="table-wrapper">
+                <div class="controls">
+                    <input type="text" id="searchUsersInput" class="search-input" placeholder="Search users...">
+                    <button class="btn" id="refreshUsersBtn">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button class="btn btn-warning" onclick="debugUserAccess()">
+                        <i class="fas fa-bug"></i> Debug
+                    </button>
+                </div>
+                <table id="usersTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Joined</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="6">Loading users...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Coupons Tab -->
+        <div id="coupons" class="tab-content">
+            <div class="coupons-header">
+                <div class="coupons-title">
+                    <h3><i class="fas fa-tag"></i> Coupon Management</h3>
+                    <p>Create and manage discount coupons for your customers</p>
+                </div>
+                <button class="btn btn-success" onclick="openAddCouponModal()">
+                    <i class="fas fa-plus"></i> Add New Coupon
+                </button>
+            </div>
+            
+            <div class="table-wrapper">
+                <div class="controls">
+                    <input type="text" id="searchCouponsInput" class="search-input" placeholder="Search coupons...">
+                    <button class="btn" id="refreshCouponsBtn">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+                <table id="couponsTable">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Discount</th>
+                            <th>Type</th>
+                            <th>Min Amount</th>
+                            <th>Usage Limit</th>
+                            <th>Used</th>
+                            <th>Expiry</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="9">Loading coupons...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Contact Messages Tab -->
+        <div id="contacts" class="tab-content">
+            <div class="table-wrapper">
+                <div class="controls">
+                    <input type="text" id="searchContactsInput" class="search-input" placeholder="Search messages...">
+                    <button class="btn" id="refreshContactsBtn">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+                <table id="contactsTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Subject</th>
+                            <th>Message</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="6">Loading messages...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Promoters Tab -->
+        <div id="promoters" class="tab-content">
+            <div class="promoters-header">
+                <div class="promoters-title">
+                    <h3><i class="fas fa-users"></i> Promoter Management</h3>
+                    <p>Manage content creators and influencers who promote CGAPH</p>
+                </div>
+                <button class="btn btn-success" onclick="openAddPromoterModal()">
+                    <i class="fas fa-plus"></i> Add New Promoter
+                </button>
+            </div>
+            
+            <div class="table-wrapper">
+                <div class="controls">
+                    <input type="text" id="searchPromotersInput" class="search-input" placeholder="Search promoters...">
+                    <button class="btn" id="refreshPromotersBtn">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+                <table id="promotersTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Platform</th>
+                            <th>Subscribers</th>
+                            <th>Videos</th>
+                            <th>Status</th>
+                            <th>Added</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="7">Loading promoters...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    <!-- Add Product Modal -->
+    <div id="addProductModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-plus"></i> Add New Product</h3>
+                <button class="modal-close" onclick="closeAddProductModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="productForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productName">Product Name</label>
+                            <input type="text" id="productName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="productCategory">Product Category</label>
+                            <select id="productCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="game-topup">Game Top-Up</option>
+                                <option value="gift-card">Gift Card</option>
+                                <option value="subscription">Subscription</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productDescription">Description</label>
+                        <textarea id="productDescription" rows="3" required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productTags">Tags (comma separated)</label>
+                            <input type="text" id="productTags" placeholder="e.g., mobile, popular, featured">
+                        </div>
+                        <div class="form-group">
+                            <label for="productStatus">Status</label>
+                            <select id="productStatus" required>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                                <option value="draft">Draft</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productImage">Product Image</label>
+                        <input type="file" id="productImage" accept="image/*" style="display: none;">
+                        <input type="url" id="productImageUrl" placeholder="Or enter image URL: https://example.com/image.jpg">
+                        <div class="image-upload-area" onclick="document.getElementById('productImage').click()">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Click to upload image or drag & drop</p>
+                            <small>Supports: JPG, PNG, GIF (Max 5MB)</small>
+                        </div>
+                        <div id="imagePreview" class="image-preview" style="display: none;">
+                            <img id="previewImg" src="" alt="Preview">
+                            <button type="button" onclick="removeImagePreview()" class="remove-image">×</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productFeatures">Features (one per line)</label>
+                        <textarea id="productFeatures" rows="4" placeholder="Enter product features, one per line"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="featuredProduct">
+                                <input type="checkbox" id="featuredProduct" style="width: auto; margin-right: 0.5rem;">
+                                Featured Product
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="productPriority">Display Priority</label>
+                            <select id="productPriority">
+                                <option value="1">Low</option>
+                                <option value="2">Normal</option>
+                                <option value="3">High</option>
+                                <option value="4">Very High</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productDiscount">Discount Percentage</label>
+                            <input type="number" id="productDiscount" placeholder="0" min="0" max="100" step="0.1">
+                            <small>Enter discount percentage (0-100)</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="productGame">Game/Platform</label>
+                            <input type="text" id="productGame" placeholder="e.g., Free Fire, PUBG Mobile, etc.">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Variants</label>
+                        <div id="variantsContainer">
+                            <div class="variant-item">
+                                <div class="variant-grid">
+                                    <input type="text" class="variant-label" placeholder="Variant name (e.g., 100 Diamonds)" required>
+                                    <input type="number" class="variant-price" placeholder="Price" step="0.01" required>
+                                    <button type="button" class="remove-variant" onclick="removeVariant(this)">×</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-add-variant" onclick="addVariant()">
+                            <i class="fas fa-plus"></i> Add Variant
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Extra Fields (for order form)</label>
+                        <div id="extraFieldsContainer">
+                            <div class="extra-item">
+                                <div class="variant-grid">
+                                    <input type="text" class="extra-label" placeholder="Field label (e.g., Game ID)" required>
+                                    <input type="text" class="extra-placeholder" placeholder="Placeholder text">
+                                    <select class="extra-required">
+                                        <option value="true">Required</option>
+                                        <option value="false">Optional</option>
+                                    </select>
+                                    <button type="button" class="remove-variant" onclick="removeExtraField(this)">×</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-add-variant" onclick="addExtraField()">
+                            <i class="fas fa-plus"></i> Add Extra Field
+                        </button>
+                    </div>
+
+
+
+                    <div class="product-actions">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Save Product
+                        </button>
+                        <button type="button" class="btn" onclick="closeAddProductModal()">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button type="button" class="btn btn-warning" onclick="previewProduct()">
+                            <i class="fas fa-eye"></i> Preview
+                        </button>
+                    </div>
+                </form>
+            </div>
+                    </div>
+            </div>
+
+    <!-- Edit Product Modal -->
+    <div id="editProductModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Edit Product</h3>
+                <button class="modal-close" onclick="closeEditProductModal()">×</button>
+                </div>
+            <div class="modal-body">
+                <form id="editProductForm">
+                    <input type="hidden" id="editProductId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editProductName">Product Name</label>
+                            <input type="text" id="editProductName" required>
+                </div>
+                        <div class="form-group">
+                            <label for="editProductCategory">Product Category</label>
+                            <select id="editProductCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="game-topup">Game Top-Up</option>
+                                <option value="gift-card">Gift Card</option>
+                                <option value="subscription">Subscription</option>
+                            </select>
+            </div>
+        </div>
+
+                    <div class="form-group">
+                        <label for="editProductDescription">Description</label>
+                        <textarea id="editProductDescription" rows="3" required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editProductTags">Tags (comma separated)</label>
+                            <input type="text" id="editProductTags" placeholder="e.g., mobile, popular, featured">
+                        </div>
+                        <div class="form-group">
+                            <label for="editProductStatus">Status</label>
+                            <select id="editProductStatus" required>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                                <option value="draft">Draft</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editProductImage">Product Image</label>
+                        <input type="file" id="editProductImage" accept="image/*" style="display: none;">
+                        <input type="url" id="editProductImageUrl" placeholder="Or enter image URL: https://example.com/image.jpg">
+                        <div class="image-upload-area" onclick="document.getElementById('editProductImage').click()">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Click to upload image or drag & drop</p>
+                            <small>Supports: JPG, PNG, GIF (Max 5MB)</small>
+                        </div>
+                        <div id="editImagePreview" class="image-preview" style="display: none;">
+                            <img id="editPreviewImg" src="" alt="Preview">
+                            <button type="button" onclick="removeEditImagePreview()" class="remove-image">×</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editProductFeatures">Features (one per line)</label>
+                        <textarea id="editProductFeatures" rows="4" placeholder="Enter product features, one per line"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editFeaturedProduct">
+                                <input type="checkbox" id="editFeaturedProduct" style="width: auto; margin-right: 0.5rem;">
+                                Featured Product
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="editProductPriority">Display Priority</label>
+                            <select id="editProductPriority">
+                                <option value="1">Low</option>
+                                <option value="2">Normal</option>
+                                <option value="3">High</option>
+                                <option value="4">Very High</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editProductDiscount">Discount Percentage</label>
+                            <input type="number" id="editProductDiscount" placeholder="0" min="0" max="100" step="0.1">
+                            <small>Enter discount percentage (0-100)</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="editProductGame">Game/Platform</label>
+                            <input type="text" id="editProductGame" placeholder="e.g., Free Fire, PUBG Mobile, etc.">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Variants</label>
+                        <div id="editVariantsContainer">
+                            <div class="variant-item">
+                                <div class="variant-grid">
+                                    <input type="text" class="variant-label" placeholder="Variant name (e.g., 100 Diamonds)" required>
+                                    <input type="number" class="variant-price" placeholder="Price" step="0.01" required>
+                                    <button type="button" class="remove-variant" onclick="removeVariant(this)">×</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-add-variant" onclick="addEditVariant()">
+                            <i class="fas fa-plus"></i> Add Variant
+                    </button>
+                </div>
+
+                    <div class="form-group">
+                        <label>Extra Fields (for order form)</label>
+                        <div id="editExtraFieldsContainer">
+                            <div class="extra-item">
+                                <div class="variant-grid">
+                                    <input type="text" class="extra-label" placeholder="Field label (e.g., Game ID)" required>
+                                    <input type="text" class="extra-placeholder" placeholder="Placeholder text">
+                                    <select class="extra-required">
+                                        <option value="true">Required</option>
+                                        <option value="false">Optional</option>
+                                    </select>
+                                    <button type="button" class="remove-variant" onclick="removeExtraField(this)">×</button>
+            </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-add-variant" onclick="addEditExtraField()">
+                            <i class="fas fa-plus"></i> Add Extra Field
+                        </button>
+        </div>
+
+
+
+                    <div class="product-actions">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Update Product
+                        </button>
+                        <button type="button" class="btn" onclick="closeEditProductModal()">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button type="button" class="btn btn-danger" onclick="deleteProduct()">
+                            <i class="fas fa-trash"></i> Delete Product
+                    </button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="toast.js"></script>
+    <script type="module" src="admin.js"></script>
+    <script type="module" src="loading.js"></script>
+
+    <!-- Add User Modal -->
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-plus"></i> Add New User</h3>
+                <button class="modal-close" onclick="closeAddUserModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="addUserForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newUserName">Full Name</label>
+                            <input type="text" id="newUserName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newUserEmail">Email</label>
+                            <input type="email" id="newUserEmail" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newUserPassword">Password</label>
+                            <input type="password" id="newUserPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newUserRole">Role</label>
+                            <select id="newUserRole" required>
+                                <option value="">Select Role</option>
+                                <option value="user">User</option>
+                                <option value="admin">Admin</option>
+                                <option value="super-admin">Super Admin</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newUserStatus">Status</label>
+                        <select id="newUserStatus" required>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="suspended">Suspended</option>
+                        </select>
+                    </div>
+
+                    <div class="product-actions">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Create User
+                        </button>
+                        <button type="button" class="btn" onclick="closeAddUserModal()">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div id="editUserModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-edit"></i> Edit User</h3>
+                <button class="modal-close" onclick="closeEditUserModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="editUserForm">
+                    <input type="hidden" id="editUserId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editUserName">Full Name</label>
+                            <input type="text" id="editUserName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editUserEmail">Email</label>
+                            <input type="email" id="editUserEmail" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editUserRole">Role</label>
+                            <select id="editUserRole" required>
+                                <option value="">Select Role</option>
+                                <option value="user">User</option>
+                                <option value="admin">Admin</option>
+                                <option value="super-admin">Super Admin</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editUserStatus">Status</label>
+                            <select id="editUserStatus" required>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                                <option value="suspended">Suspended</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editUserPassword">New Password (leave blank to keep current)</label>
+                        <input type="password" id="editUserPassword" placeholder="Enter new password if changing">
+                    </div>
+
+                    <div class="product-actions">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Update User
+                        </button>
+                        <button type="button" class="btn" onclick="closeEditUserModal()">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button type="button" class="btn btn-danger" onclick="deleteUser()">
+                            <i class="fas fa-trash"></i> Delete User
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal Functions
+        function openAddProductModal() {
+            document.getElementById('addProductModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAddProductModal() {
+            document.getElementById('addProductModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            // Reset form
+            document.getElementById('productForm').reset();
+            // Clear image preview
+            document.getElementById('imagePreview').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('addProductModal');
+            if (event.target === modal) {
+                closeAddProductModal();
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeAddProductModal();
+            }
+        });
+
+        // Form submission
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add your form submission logic here
+            showToast('Form submitted', 'info');
+            // You can integrate this with your existing admin.js functionality
+        });
+
+        // Image upload handling
+        document.getElementById('productImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('previewImg').src = e.target.result;
+                    document.getElementById('imagePreview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Remove image preview
+        function removeImagePreview() {
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('productImage').value = '';
+            document.getElementById('productImageUrl').value = '';
+        }
+
+        // Add variant
+        function addVariant() {
+            const container = document.getElementById('variantsContainer');
+            const variantItem = document.createElement('div');
+            variantItem.className = 'variant-item';
+            variantItem.innerHTML = `
+                <div class="variant-grid">
+                    <input type="text" class="variant-label" placeholder="Variant name (e.g., 100 Diamonds)" required>
+                    <input type="number" class="variant-price" placeholder="Price" step="0.01" required>
+                    <button type="button" class="remove-variant" onclick="removeVariant(this)">×</button>
+                </div>
+            `;
+            container.appendChild(variantItem);
+        }
+
+        // Remove variant
+        function removeVariant(button) {
+            button.closest('.variant-item').remove();
+        }
+
+        // Add extra field
+        function addExtraField() {
+            const container = document.getElementById('extraFieldsContainer');
+            const extraItem = document.createElement('div');
+            extraItem.className = 'extra-item';
+            extraItem.innerHTML = `
+                <div class="variant-grid">
+                    <input type="text" class="extra-label" placeholder="Field label (e.g., Game ID)" required>
+                    <input type="text" class="extra-placeholder" placeholder="Placeholder text">
+                    <select class="extra-required">
+                        <option value="true">Required</option>
+                        <option value="false">Optional</option>
+                    </select>
+                    <button type="button" class="remove-variant" onclick="removeExtraField(this)">×</button>
+                </div>
+            `;
+            container.appendChild(extraItem);
+        }
+
+        // Remove extra field
+        function removeExtraField(button) {
+            button.closest('.extra-item').remove();
+        }
+
+        // Preview product
+        function previewProduct() {
+            // Add your preview logic here
+            showToast('Preview product', 'info');
+        }
+
+        // Edit Product Modal Functions
+        function openEditProductModal() {
+            document.getElementById('editProductModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeEditProductModal() {
+            document.getElementById('editProductModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            // Reset form
+            document.getElementById('editProductForm').reset();
+            // Clear image preview
+            document.getElementById('editImagePreview').style.display = 'none';
+            // Reset editing product ID
+            if (typeof editingProductId !== 'undefined') {
+                editingProductId = null;
+            }
+        }
+
+        // Edit variant functions
+        function addEditVariant() {
+            const container = document.getElementById('editVariantsContainer');
+            const variantItem = document.createElement('div');
+            variantItem.className = 'variant-item';
+            variantItem.innerHTML = `
+                <div class="variant-grid">
+                    <input type="text" class="variant-label" placeholder="Variant name (e.g., 100 Diamonds)" required>
+                    <input type="number" class="variant-price" placeholder="Price" step="0.01" required>
+                    <button type="button" class="remove-variant" onclick="removeVariant(this)">×</button>
+                </div>
+            `;
+            container.appendChild(variantItem);
+        }
+
+        function addEditExtraField() {
+            const container = document.getElementById('editExtraFieldsContainer');
+            const extraItem = document.createElement('div');
+            extraItem.className = 'extra-item';
+            extraItem.innerHTML = `
+                <div class="variant-grid">
+                    <input type="text" class="extra-label" placeholder="Field label (e.g., Game ID)" required>
+                    <input type="text" class="extra-placeholder" placeholder="Placeholder text">
+                    <select class="extra-required">
+                        <option value="true">Required</option>
+                        <option value="false">Optional</option>
+                    </select>
+                    <button type="button" class="remove-variant" onclick="removeExtraField(this)">×</button>
+                </div>
+            `;
+            container.appendChild(extraItem);
+        }
+
+        // Edit image handling
+        document.getElementById('editProductImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('editPreviewImg').src = e.target.result;
+                    document.getElementById('editImagePreview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function removeEditImagePreview() {
+            document.getElementById('editImagePreview').style.display = 'none';
+            document.getElementById('editProductImage').value = '';
+            document.getElementById('editProductImageUrl').value = '';
+        }
+
+        // Delete product
+        function deleteProduct() {
+            if (confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
+                // Add your delete logic here
+                showToast('Product deleted', 'success');
+                closeEditProductModal();
+            }
+        }
+
+        // User Management Functions
+        function openAddUserModal() {
+            document.getElementById('addUserModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAddUserModal() {
+            document.getElementById('addUserModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            document.getElementById('addUserForm').reset();
+        }
+
+        function openEditUserModal() {
+            document.getElementById('editUserModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeEditUserModal() {
+            document.getElementById('editUserModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            document.getElementById('editUserForm').reset();
+        }
+
+        // Delete user
+        function deleteUser() {
+            if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
+                // Add your delete logic here
+                showToast('User deleted', 'success');
+                closeEditUserModal();
+            }
+        }
+
+        // Form submissions
+        document.getElementById('addUserForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add your user creation logic here
+            showToast('User creation form submitted', 'info');
+        });
+
+        document.getElementById('editUserForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add your user update logic here
+            showToast('User update form submitted', 'info');
+        });
+
+        document.getElementById('editProductForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add your product update logic here
+            showToast('Product update form submitted', 'info');
+        });
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const addProductModal = document.getElementById('addProductModal');
+            const editProductModal = document.getElementById('editProductModal');
+            const addUserModal = document.getElementById('addUserModal');
+            const editUserModal = document.getElementById('editUserModal');
+            
+            if (event.target === addProductModal) {
+                closeAddProductModal();
+            }
+            if (event.target === editProductModal) {
+                closeEditProductModal();
+            }
+            if (event.target === addUserModal) {
+                closeAddUserModal();
+            }
+            if (event.target === editUserModal) {
+                closeEditUserModal();
+            }
+        }
+
+        // Close modals with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeAddProductModal();
+                closeEditProductModal();
+                closeAddUserModal();
+                closeEditUserModal();
+            }
+        });
+
+        // Add missing functions that admin.js expects
+        function addVariant() {
+            const container = document.getElementById('variantsContainer');
+            const variantItem = document.createElement('div');
+            variantItem.className = 'variant-item';
+            variantItem.innerHTML = `
+                <div class="variant-grid">
+                    <input type="text" class="variant-label" placeholder="Variant name (e.g., 100 Diamonds)" required>
+                    <input type="number" class="variant-price" placeholder="Price" step="0.01" required>
+                    <button type="button" class="remove-variant" onclick="removeVariant(this)">×</button>
+                </div>
+            `;
+            container.appendChild(variantItem);
+        }
+
+        function removeVariant(button) {
+            button.closest('.variant-item').remove();
+        }
+
+        function addExtraField() {
+            const container = document.getElementById('extraFieldsContainer');
+            const extraItem = document.createElement('div');
+            extraItem.className = 'extra-item';
+            extraItem.innerHTML = `
+                <div class="variant-grid">
+                    <input type="text" class="extra-label" placeholder="Field label (e.g., Game ID)" required>
+                    <input type="text" class="extra-placeholder" placeholder="Placeholder text">
+                    <select class="extra-required">
+                        <option value="true">Required</option>
+                        <option value="false">Optional</option>
+                    </select>
+                    <button type="button" class="remove-variant" onclick="removeExtraField(this)">×</button>
+                </div>
+            `;
+            container.appendChild(extraItem);
+        }
+
+        function removeExtraField(button) {
+            button.closest('.extra-item').remove();
+        }
+
+        // Make functions globally available
+        window.addVariant = addVariant;
+        window.removeVariant = removeVariant;
+        window.addExtraField = addExtraField;
+        window.removeExtraField = removeExtraField;
+        window.openAddProductModal = openAddProductModal;
+        window.closeAddProductModal = closeAddProductModal;
+        window.openEditProductModal = openEditProductModal;
+        window.closeEditProductModal = closeEditProductModal;
+        window.openAddUserModal = openAddUserModal;
+        window.closeAddUserModal = closeAddUserModal;
+        window.openEditUserModal = openEditUserModal;
+        window.closeEditUserModal = closeEditUserModal;
+    </script>
+
+    <!-- Add Coupon Modal -->
+    <div id="addCouponModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-plus"></i> Add New Coupon</h3>
+                <button class="modal-close" onclick="closeAddCouponModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="couponForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="couponCode">Coupon Code</label>
+                            <input type="text" id="couponCode" placeholder="e.g., SAVE20" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="couponType">Discount Type</label>
+                            <select id="couponType" required>
+                                <option value="percentage">Percentage (%)</option>
+                                <option value="fixed">Fixed Amount (Rs)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="couponValue">Discount Value</label>
+                            <input type="number" id="couponValue" placeholder="20" step="0.01" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="couponMinAmount">Minimum Order Amount</label>
+                            <input type="number" id="couponMinAmount" placeholder="100" step="0.01" min="0" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="couponUsageLimit">Usage Limit</label>
+                            <input type="number" id="couponUsageLimit" placeholder="100" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="couponExpiry">Expiry Date</label>
+                            <input type="datetime-local" id="couponExpiry" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="couponDescription">Description</label>
+                        <textarea id="couponDescription" placeholder="Optional description for this coupon"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeAddCouponModal()">Cancel</button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Create Coupon
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Coupon Modal -->
+    <div id="editCouponModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Edit Coupon</h3>
+                <button class="modal-close" onclick="closeEditCouponModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="editCouponForm">
+                    <input type="hidden" id="editCouponId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editCouponCode">Coupon Code</label>
+                            <input type="text" id="editCouponCode" placeholder="e.g., SAVE20" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editCouponType">Discount Type</label>
+                            <select id="editCouponType" required>
+                                <option value="percentage">Percentage (%)</option>
+                                <option value="fixed">Fixed Amount (Rs)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editCouponValue">Discount Value</label>
+                            <input type="number" id="editCouponValue" placeholder="20" step="0.01" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editCouponMinAmount">Minimum Order Amount</label>
+                            <input type="number" id="editCouponMinAmount" placeholder="100" step="0.01" min="0" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editCouponUsageLimit">Usage Limit</label>
+                            <input type="number" id="editCouponUsageLimit" placeholder="100" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editCouponExpiry">Expiry Date</label>
+                            <input type="datetime-local" id="editCouponExpiry" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editCouponStatus">Status</label>
+                            <select id="editCouponStatus" required>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editCouponDescription">Description</label>
+                        <textarea id="editCouponDescription" placeholder="Optional description for this coupon"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeEditCouponModal()">Cancel</button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Update Coupon
+                        </button>
+                        <button type="button" class="btn btn-danger" onclick="deleteCouponFromEdit()">
+                            <i class="fas fa-trash"></i> Delete Coupon
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Promoter Modal -->
+    <div id="addPromoterModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-plus"></i> Add New Promoter</h3>
+                <button class="modal-close" onclick="closeAddPromoterModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="promoterForm">
+                    <div class="form-group">
+                        <label for="promoterUrl">Social Media URL</label>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="url" id="promoterUrl" placeholder="https://youtube.com/@channel or https://tiktok.com/@username" required style="flex: 1;">
+                            <button type="button" class="btn btn-warning" onclick="fetchPromoterInfo(document.getElementById('promoterUrl').value)">
+                                <i class="fas fa-magic"></i> Auto-fill
+                            </button>
+                        </div>
+                        <small>Supported: YouTube, TikTok, Instagram</small>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="promoterName">Name</label>
+                            <input type="text" id="promoterName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="promoterPlatform">Platform</label>
+                            <select id="promoterPlatform" required>
+                                <option value="">Select Platform</option>
+                                <option value="youtube">YouTube</option>
+                                <option value="tiktok">TikTok</option>
+                                <option value="instagram">Instagram</option>
+                                <option value="facebook">Facebook</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="promoterProfilePicture">Profile Picture URL</label>
+                        <input type="url" id="promoterProfilePicture" placeholder="https://example.com/profile.jpg">
+                        <div id="promoterImagePreview" class="image-preview" style="display: none;">
+                            <img id="promoterPreviewImg" src="" alt="Preview" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="promoterSubscribers">Subscribers/Followers</label>
+                            <input type="number" id="promoterSubscribers" min="0" placeholder="100000">
+                        </div>
+                        <div class="form-group">
+                            <label for="promoterVideos">Videos/Posts</label>
+                            <input type="number" id="promoterVideos" min="0" placeholder="500">
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeAddPromoterModal()">Cancel</button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Add Promoter
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Promoter Modal -->
+    <div id="editPromoterModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Edit Promoter</h3>
+                <button class="modal-close" onclick="closeEditPromoterModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="editPromoterForm">
+                    <input type="hidden" id="editPromoterId">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editPromoterName">Name</label>
+                            <input type="text" id="editPromoterName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPromoterPlatform">Platform</label>
+                            <select id="editPromoterPlatform" required>
+                                <option value="">Select Platform</option>
+                                <option value="youtube">YouTube</option>
+                                <option value="tiktok">TikTok</option>
+                                <option value="instagram">Instagram</option>
+                                <option value="facebook">Facebook</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editPromoterProfilePicture">Profile Picture URL</label>
+                        <input type="url" id="editPromoterProfilePicture" placeholder="https://example.com/profile.jpg">
+                        <div id="editPromoterImagePreview" class="image-preview" style="display: none;">
+                            <img id="editPromoterPreviewImg" src="" alt="Preview" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editPromoterSubscribers">Subscribers/Followers</label>
+                            <input type="number" id="editPromoterSubscribers" min="0" placeholder="100000">
+                        </div>
+                        <div class="form-group">
+                            <label for="editPromoterVideos">Videos/Posts</label>
+                            <input type="number" id="editPromoterVideos" min="0" placeholder="500">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editPromoterUrl">Social Media URL</label>
+                            <input type="url" id="editPromoterUrl" placeholder="https://youtube.com/@channel">
+                        </div>
+                        <div class="form-group">
+                            <label for="editPromoterStatus">Status</label>
+                            <select id="editPromoterStatus" required>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeEditPromoterModal()">Cancel</button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Update Promoter
+                        </button>
+                        <button type="button" class="btn btn-danger" onclick="deletePromoterFromEdit()">
+                            <i class="fas fa-trash"></i> Delete Promoter
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div id="orderDetailsModal" class="modal">
+        <div class="modal-content">
+            <div id="orderDetailsContent">
+                <!-- Order details will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Hamburger Menu Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburgerMenu = document.getElementById('hamburgerMenu');
+            const mobileNav = document.getElementById('mobileNav');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            const mobileNavTabs = document.querySelectorAll('.mobile-nav-tab');
+            const adminTabs = document.querySelectorAll('.admin-tab');
+
+            // Toggle mobile menu
+            hamburgerMenu.addEventListener('click', function() {
+                hamburgerMenu.classList.toggle('active');
+                mobileNav.classList.toggle('active');
+                mobileOverlay.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking overlay
+            mobileOverlay.addEventListener('click', function() {
+                hamburgerMenu.classList.remove('active');
+                mobileNav.classList.remove('active');
+                mobileOverlay.classList.remove('active');
+            });
+
+            // Handle mobile nav tab clicks
+            mobileNavTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const targetTab = this.dataset.tab;
+                    
+                    // Update mobile nav active state
+                    mobileNavTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show the target tab content
+                    showTab(targetTab);
+                    
+                    // Close mobile menu
+                    hamburgerMenu.classList.remove('active');
+                    mobileNav.classList.remove('active');
+                    mobileOverlay.classList.remove('active');
+                });
+            });
+
+            // Desktop tabs are removed, only mobile navigation is used
+        });
+    </script>
+</body>
+</html>
+
+

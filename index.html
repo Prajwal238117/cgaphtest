@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>CGAPH - Best Game Top-ups, Gift Cards & Subscriptions in Nepal | Instant Delivery</title>
+    <meta name="title" content="CGAPH - Best Game Top-ups, Gift Cards & Subscriptions in Nepal | Instant Delivery">
+    <meta name="description" content="Buy game top-ups, gift cards, and subscriptions at the best prices in Nepal. Free Fire diamonds, PUBG UC, Netflix, Spotify premium. Instant delivery, secure payment, 24/7 support.">
+    <meta name="keywords" content="game top up nepal, free fire diamonds, pubg uc, gift cards nepal, netflix subscription, spotify premium, mobile gaming, esewa payment, khalti payment">
+    <meta name="author" content="CGAPH">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cgaph.com/">
+    <meta property="og:title" content="CGAPH - Best Game Top-ups, Gift Cards & Subscriptions in Nepal">
+    <meta property="og:description" content="Buy game top-ups, gift cards, and subscriptions at the best prices in Nepal. Free Fire diamonds, PUBG UC, Netflix, Spotify premium. Instant delivery, secure payment, 24/7 support.">
+    <meta property="og:image" content="https://cgaph.com/logo.png">
+    <meta property="og:site_name" content="CGAPH">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://cgaph.com/">
+    <meta property="twitter:title" content="CGAPH - Best Game Top-ups, Gift Cards & Subscriptions in Nepal">
+    <meta property="twitter:description" content="Buy game top-ups, gift cards, and subscriptions at the best prices in Nepal. Free Fire diamonds, PUBG UC, Netflix, Spotify premium. Instant delivery, secure payment, 24/7 support.">
+    <meta property="twitter:image" content="https://cgaph.com/logo.png">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="msapplication-TileColor" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="CGAPH">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://cgaph.com/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .social-follow-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9998;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+        .social-follow-modal {
+            background: #111827;
+            color: #f9fafb;
+            width: 92%;
+            max-width: 420px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+            transform: translateY(10px);
+            opacity: 0;
+            transition: opacity 200ms ease, transform 200ms ease;
+            z-index: 9999;
+            max-height: 90vh;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .social-follow-overlay.active {
+            display: flex;
+        }
+        .social-follow-overlay.active .social-follow-modal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .sfm-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .sfm-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+        }
+        .sfm-close {
+            background: transparent;
+            border: none;
+            color: #e5e7eb;
+            font-size: 18px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+        .sfm-body {
+            padding: 16px;
+        }
+        .sfm-text {
+            margin: 0 0 14px 0;
+            color: #d1d5db;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        .sfm-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .sfm-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 10px;
+            border-radius: 10px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+            min-height: 44px;
+        }
+        .sfm-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+        }
+        .sfm-btn i { font-size: 16px; }
+        .sfm-fb { background: #1877f2; }
+        .sfm-yt { background: #ff0000; }
+        .sfm-tt { background: #000000; border: 1px solid #222; }
+        .sfm-footer {
+            padding: 12px 16px 16px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .sfm-optout {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #d1d5db;
+            font-size: 13px;
+            user-select: none;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 4px;
+        }
+        .sfm-footer > div {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+        .sfm-optout input { width: 18px; height: 18px; accent-color: #6366f1; }
+        .sfm-secondary {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #e5e7eb;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .sfm-primary {
+            background: #6366f1;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .sfm-close:focus-visible,
+        .sfm-secondary:focus-visible,
+        .sfm-primary:focus-visible,
+        .sfm-btn:focus-visible,
+        .sfm-optout input:focus-visible {
+            outline: 2px solid #a5b4fc;
+            outline-offset: 2px;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .social-follow-modal { transition: none; }
+            .sfm-btn { transition: none; }
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 480px) {
+            .social-follow-modal { border-radius: 14px; }
+            .sfm-header { padding: 12px 14px; }
+            .sfm-body { padding: 14px; }
+            .sfm-footer { padding: 10px 14px 14px 14px; }
+            .sfm-optout { width: 100%; margin-bottom: 6px; }
+            .sfm-footer > div { width: 100%; }
+            .sfm-actions { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .sfm-title { font-size: 15px; }
+            .sfm-text { font-size: 14px; }
+            .sfm-btn { font-size: 14px; min-height: 46px; }
+        }
+        @media (max-width: 360px) {
+            .sfm-actions { grid-template-columns: 1fr; }
+            .sfm-btn { width: 100%; }
+        }
+    </style>
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "CGAPH",
+      "url": "https://cgaph.com",
+      "logo": "https://cgaph.com/logo.png",
+      "description": "Best Game Top-ups, Gift Cards & Subscriptions in Nepal",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "Nepal"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "support@cgaph.com",
+        "contactType": "customer service"
+      },
+      "sameAs": [
+        "https://www.facebook.com/profile.php?id=61581082588575",
+        "https://instagram.com/cgaph"
+      ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "CGAPH",
+      "url": "https://cgaph.com",
+      "description": "Buy game top-ups, gift cards, and subscriptions at the best prices in Nepal",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://cgaph.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <img src="logo.png" alt="CGAPH Logo" class="nav-logo">
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#top-products" class="nav-link">Products</a></li>
+                <li><a href="promoters.html" class="nav-link">Promoters</a></li>
+                <li><a href="#latest-purchases" class="nav-link">Recent</a></li>
+                <li><a href="features.html" class="nav-link">Features</a></li>
+            </ul>
+            <div class="nav-cart">
+                <a href="cart.html">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+                </a>
+            </div>
+
+            <div class="nav-auth">
+                <a href="login.html" class="nav-link">Login</a>
+                <a href="register.html" class="nav-link">Register</a>
+            </div>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    
+    
+        
+        <!-- Animated background elements -->
+        <div class="hero-bg-elements">
+            <div class="floating-icon icon-1"><i class="fas fa-gamepad"></i></div>
+            <div class="floating-icon icon-2"><i class="fas fa-gift"></i></div>
+            <div class="floating-icon icon-3"><i class="fas fa-mobile-alt"></i></div>
+            <div class="floating-icon icon-4"><i class="fas fa-tv"></i></div>
+        </div>
+    </section>
+
+
+
+    <!-- Game Top-Up Section -->
+    <section id="game-topup" class="category-section">
+        <h2 class="section-title animate-on-scroll">Game Top-Up</h2>
+        <div class="products-container">
+            <div id="gameTopupList" class="products-list">
+                <div class="loading-spinner">
+                    <div class="spinner-icon">  
+                        <i class="fas fa-spinner"></i>
+                    </div>
+                    <div class="loading-text">Loading...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gift Card Section -->
+    <section id="gift-card" class="category-section">
+        <h2 class="section-title animate-on-scroll">Gift Card</h2>
+        <div class="products-container">
+            <div id="giftCardList" class="products-list">
+                <div class="loading-spinner">
+                    <div class="spinner-icon">
+                        <i class="fas fa-spinner"></i>
+                    </div>
+                    <div class="loading-text">Loading...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subscription Section -->
+    <section id="subscription" class="category-section">
+        <h2 class="section-title animate-on-scroll">Subscription</h2>
+        <div class="products-container">
+            <div id="subscriptionList" class="products-list">
+                <div class="loading-spinner">
+                    <div class="spinner-icon">
+                        <i class="fas fa-spinner"></i>
+                    </div>
+                    <div class="loading-text">Loading...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Purchases Section -->
+    <section id="latest-purchases" class="latest-purchases">
+        <h2 class="section-title animate-on-scroll">Latest Purchases</h2>
+        <div class="purchases-container">
+            <div id="latestPurchasesList" class="purchases-list">
+                <div class="loading-spinner">
+                    <div class="spinner-icon">
+                        <i class="fas fa-spinner"></i>
+                    </div>
+                    <div class="loading-text">Loading...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>CGAPH</h3>
+                <p>Your trusted source for digital gaming and entertainment content.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/profile.php?id=61581082588575" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.youtube.com/@cgaph" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.tiktok.com/@cgaph?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://discord.gg/xfYVjDW3Bc" target="_blank" rel="noopener" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="all-products.html">Products</a></li>
+                    <li><a href="promoters.html">Promoters</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="refund.html">Refund Policy</a></li>
+                    <li><a href="contact.html">Help Center</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Info</h4>
+                <p><i class="fas fa-envelope"></i> support@cgaph.com</p>
+                <p><i class="fas fa-phone"></i> +977 9767345557</p>
+                <p><i class="fas fa-map-marker-alt"></i> Kathmandu, Nepal</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 CGAPH. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="./toast.js"></script>
+    <script type="module" src="./cart.js"></script>
+    <script type="module" src="./scroll-animations.js"></script>
+    <script type="module" src="./latest-purchases.js"></script>
+    <script type="module" src="./category-products.js"></script>
+    <script type="module" src="./loading.js"></script>
+    <script src="./marquee-handler.js"></script>
+    
+    <!-- Social Follow Modal -->
+    <div class="social-follow-overlay" id="socialFollowOverlay" aria-hidden="true" role="dialog" aria-labelledby="sfm-title" aria-modal="true">
+        <div class="social-follow-modal" role="document">
+            <div class="sfm-header">
+                <h3 class="sfm-title" id="sfm-title">Follow CGAPH</h3>
+                <button type="button" class="sfm-close" id="sfm-close" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="sfm-body">
+                <p class="sfm-text">Stay updated with deals, giveaways, and new top-ups. Follow us:</p>
+                <div class="sfm-actions">
+                    <a class="sfm-btn sfm-fb" href="https://www.facebook.com/profile.php?id=61581082588575" target="_blank" rel="noopener" aria-label="Follow on Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                        <span>Facebook</span>
+                    </a>
+                    <a class="sfm-btn sfm-yt" href="https://www.youtube.com/@cgaph" target="_blank" rel="noopener" aria-label="Subscribe on YouTube">
+                        <i class="fab fa-youtube"></i>
+                        <span>YouTube</span>
+                    </a>
+                    <a class="sfm-btn sfm-tt" href="https://www.tiktok.com/@cgaph?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener" aria-label="Follow on TikTok">
+                        <i class="fab fa-tiktok"></i>
+                        <span>TikTok</span>
+                    </a>
+                </div>
+            </div>
+            <div class="sfm-footer">
+                <label class="sfm-optout" for="sfm-never">
+                    <input type="checkbox" id="sfm-never" />
+                    <span>Don't show again</span>
+                </label>
+                <div>
+                    <button type="button" class="sfm-secondary" id="sfm-later">Maybe later</button>
+                    <button type="button" class="sfm-primary" id="sfm-ok">Got it</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        (function() {
+            var TEN_MINUTES_MS = 5 * 60 * 1000; // 5 minutes
+            var STORAGE_KEY = 'cgaph_social_follow_last_shown_at';
+            var overlay = document.getElementById('socialFollowOverlay');
+            var btnClose = document.getElementById('sfm-close');
+            var btnLater = document.getElementById('sfm-later');
+            var btnOk = document.getElementById('sfm-ok');
+            var chkNever = document.getElementById('sfm-never');
+            var DISABLED_KEY = 'cgaph_social_follow_disabled';
+
+            function getNow() { return Date.now(); }
+            function getLastShown() {
+                var raw = localStorage.getItem(STORAGE_KEY);
+                var value = raw ? parseInt(raw, 10) : 0;
+                return isNaN(value) ? 0 : value;
+            }
+            function setLastShown(ts) {
+                try { localStorage.setItem(STORAGE_KEY, String(ts)); } catch (e) { /* ignore */ }
+            }
+            function isDisabled() {
+                try { return localStorage.getItem(DISABLED_KEY) === '1'; } catch (e) { return false; }
+            }
+            function setDisabled(flag) {
+                try { localStorage.setItem(DISABLED_KEY, flag ? '1' : '0'); } catch (e) { /* ignore */ }
+            }
+            function openModal() {
+                overlay.classList.add('active');
+                overlay.setAttribute('aria-hidden', 'false');
+                setLastShown(getNow());
+            }
+            function closeModal() {
+                overlay.classList.remove('active');
+                overlay.setAttribute('aria-hidden', 'true');
+            }
+
+            function scheduleNextShow() {
+                if (isDisabled()) { return; }
+                var last = getLastShown();
+                var now = getNow();
+                var elapsed = now - last;
+                var delay = TEN_MINUTES_MS - elapsed;
+                if (delay < 0) delay = 0;
+                window.setTimeout(function() {
+                    if (!isDisabled()) { openModal(); }
+                    // After it opens once, continue showing every 10 minutes
+                    window.setInterval(function() {
+                        if (isDisabled()) { return; }
+                        if (!overlay.classList.contains('active')) {
+                            openModal();
+                        } else {
+                            // already open; just refresh timestamp to avoid immediate re-open
+                            setLastShown(getNow());
+                        }
+                    }, TEN_MINUTES_MS);
+                }, delay);
+            }
+
+            function clickOutsideToClose(e) {
+                if (e.target === overlay) {
+                    closeModal();
+                }
+            }
+
+            // Wire up events
+            btnClose.addEventListener('click', function(){ if (chkNever && chkNever.checked) setDisabled(true); closeModal(); });
+            btnLater.addEventListener('click', function(){ if (chkNever && chkNever.checked) setDisabled(true); closeModal(); });
+            btnOk.addEventListener('click', function(){ if (chkNever && chkNever.checked) setDisabled(true); closeModal(); });
+            if (chkNever) {
+                chkNever.addEventListener('change', function(){ setDisabled(chkNever.checked); });
+            }
+            overlay.addEventListener('click', clickOutsideToClose);
+
+            // Start schedule on page load
+            scheduleNextShow();
+        })();
+    </script>
+    
+
+</body>
+</html>
+
