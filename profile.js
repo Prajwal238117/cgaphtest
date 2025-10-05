@@ -98,24 +98,81 @@ async function loadRecentOrders(user) {
         ordersCountElement.textContent = orders.length;
         totalSpentElement.textContent = `Rs ${totalSpent.toFixed(2)}`;
         
-        // Display recent orders
+        // Display recent orders with better formatting
         if (top.length > 0) {
-            activityList.innerHTML = top.map(order => `
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-shopping-bag"></i>
+            activityList.innerHTML = top.map(order => {
+                const orderDate = order.timestamp.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                const statusClass = (order.status || 'pending').toLowerCase();
+                const statusText = (order.status || 'Pending').charAt(0).toUpperCase() + (order.status || 'Pending').slice(1);
+                
+                const orderTotal = order.orderTotal || 'N/A';
+                
+                // Get product names from orderItems array (like in latest-purchases.js)
+                const items = order.orderItems || [];
+                const itemNames = items.map(item => item.name || item.productName || 'Unknown Item');
+                const productName = itemNames.length > 0 ? itemNames.join(', ') : (order.productName || order.product || order.itemName || order.title || 'Digital Items');
+                
+                return `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-id">
+                                <i class="fas fa-receipt"></i>
+                                <span class="order-id-text marquee"><span class="marquee-text">Order #${order.id.slice(-8)}</span></span>
+                            </div>
+                            <div class="order-status status-${statusClass}">
+                                <i class="fas fa-circle"></i>
+                                ${statusText}
+                            </div>
+                        </div>
+                        <div class="order-details">
+                            <div class="order-info">
+                                <div class="order-product">
+                                    <i class="fas fa-box"></i>
+                                    <span class="product-name-text marquee"><span class="marquee-text">${productName}</span></span>
+                                </div>
+                                <div class="order-amount">
+                                    <span>${orderTotal}</span>
+                                </div>
+                            </div>
+                            <div class="order-meta">
+                                <div class="order-date">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>${orderDate}</span>
+                                </div>
+                                ${order.paymentMethod ? `
+                                    <div class="order-payment">
+                                        <i class="fas fa-credit-card"></i>
+                                        <span>${order.paymentMethod}</span>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
                     </div>
-                    <div class="activity-content">
-                        <h4>Order #${order.id.slice(-8)}</h4>
-                        <p>${order.productName || 'Product'}</p>
-                        <span class="activity-date">${order.timestamp.toLocaleDateString()}</span>
-                        <span class="activity-status ${order.status || 'pending'}">${order.status || 'Pending'}</span>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         } else {
-            activityList.innerHTML = '<p class="no-orders">No recent orders.</p>';
+            activityList.innerHTML = `
+                <div class="no-orders">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>No recent orders found</p>
+                    <a href="all-products.html" class="shop-now-btn">Start Shopping</a>
+                </div>
+            `;
         }
+        
+        // Trigger marquee after content is loaded
+        setTimeout(() => {
+            if (window.triggerMarquee) {
+                window.triggerMarquee();
+            }
+        }, 200);
         
     } catch (error) {
         showToast('Error loading recent orders', 'error');

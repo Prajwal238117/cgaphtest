@@ -3456,8 +3456,20 @@ async function deleteCode(codeId, collection) {
 
 // Load wallet top-ups
 async function loadWalletTopups() {
+    const table = document.getElementById('walletTopupsTable');
     const tbody = document.querySelector('#walletTopupsTable tbody');
-    if (!tbody) return;
+    
+    if (!table || !tbody) return;
+
+    // Show the table
+    table.style.display = 'table';
+    
+    // Hide other tables
+    document.querySelectorAll('table').forEach(t => {
+        if (t.id !== 'walletTopupsTable') {
+            t.style.display = 'none';
+        }
+    });
 
     try {
         tbody.innerHTML = '<tr><td colspan="9">Loading wallet top-ups...</td></tr>';
@@ -3494,15 +3506,15 @@ async function loadWalletTopups() {
                     <td><span class="status-badge ${topup.status}">${topup.status}</span></td>
                     <td>${submittedAt ? submittedAt.toLocaleDateString() : 'Not submitted'}</td>
                     <td>
-                        ${topup.paymentScreenshotUrl && topup.paymentScreenshotUrl !== 'MANUAL_VERIFICATION_REQUIRED' ? 
-                            `<button class="btn btn-sm" onclick="viewScreenshot('${topup.paymentScreenshotUrl}')" title="View Screenshot">
+                        ${topup.screenshot || (topup.paymentScreenshotUrl && topup.paymentScreenshotUrl !== 'MANUAL_VERIFICATION_REQUIRED') ? 
+                            `<button class="btn btn-sm" onclick="viewWalletTopupScreenshot('${topup.screenshot || topup.paymentScreenshotUrl}')" title="View Screenshot">
                                 <i class="fas fa-image"></i>
                             </button>` : 
                             '<span class="text-muted">No screenshot</span>'
                         }
                     </td>
                     <td>
-                        ${topup.status === 'pending_verification' ? `
+                        ${topup.status === 'pending' || topup.status === 'pending_verification' ? `
                             <button class="btn btn-sm btn-success" onclick="approveWalletTopup('${topup.id}', '${topup.userId}', ${topup.amount})" title="Approve">
                                 <i class="fas fa-check"></i>
                             </button>
@@ -3527,6 +3539,34 @@ async function loadWalletTopups() {
 // View payment screenshot
 function viewScreenshot(imageUrl) {
     window.open(imageUrl, '_blank');
+}
+
+// View wallet top-up screenshot (handles both base64 and URLs)
+function viewWalletTopupScreenshot(imageData) {
+    if (!imageData) return;
+    
+    if (imageData.startsWith('data:image')) {
+        // Base64 image - show in modal
+        const modal = document.getElementById('orderDetailsModal');
+        if (!modal) return;
+        
+        modal.innerHTML = `
+            <div class="modal-header">
+                <h3>Payment Screenshot</h3>
+                <button class="close-modal" onclick="closeOrderDetailsModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="screenshot-viewer">
+                    <img src="${imageData}" alt="Payment Screenshot" style="max-width: 100%; height: auto; border-radius: 10px;">
+                </div>
+            </div>
+        `;
+        
+        modal.style.display = 'block';
+    } else {
+        // URL - open in new tab
+        window.open(imageData, '_blank');
+    }
 }
 
 // Approve wallet top-up
@@ -3627,5 +3667,6 @@ window.deleteCode = deleteCode;
 window.initializeCodeManagement = initializeCodeManagement;
 window.loadWalletTopups = loadWalletTopups;
 window.viewScreenshot = viewScreenshot;
+window.viewWalletTopupScreenshot = viewWalletTopupScreenshot;
 window.approveWalletTopup = approveWalletTopup;
 window.rejectWalletTopup = rejectWalletTopup;

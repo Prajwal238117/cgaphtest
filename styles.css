@@ -207,7 +207,6 @@ body {
     cursor: pointer;
     padding: 0.5rem;
     z-index: 1001;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     justify-content: center;
     align-items: center;
     width: 32px;
@@ -216,14 +215,6 @@ body {
     font-size: 1.2rem;
     position: relative;
     margin-left: 1rem;
-}
-
-.user-button:hover {
-    opacity: 0.8;
-}
-
-.user-button:active {
-    opacity: 0.6;
 }
 
 /* Mobile User Button Positioning */
@@ -263,9 +254,10 @@ body {
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 1px solid rgba(255,255,255,0.1);
     overflow: hidden;
+    transition: none !important;
+    animation: none !important;
 }
 
 .user-dropdown.active {
@@ -273,6 +265,8 @@ body {
     visibility: visible;
     transform: translateY(0);
     z-index: 1002;
+    transition: none !important;
+    animation: none !important;
 }
 
 .user-dropdown-header {
@@ -482,61 +476,59 @@ body {
     animation: hamburgerPulse 0.6s ease-in-out;
 }
 
+/* Floating Cart Button */
+.floating-cart {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.floating-cart:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+    color: white;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+}
+
+.floating-cart .cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff4757;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
 /* Mobile Cart Positioning - Global */
 @media (max-width: 768px) {
-    /* Show cart as fixed button */
-    .nav-cart {
-        position: fixed !important;
-        bottom: 20px !important;
-        left: 20px !important;
-        z-index: 1000 !important;
-        background: linear-gradient(45deg, #667eea, #764ba2) !important;
-        border-radius: 50% !important;
-        width: 60px !important;
-        height: 60px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3) !important;
-        transition: all 0.3s ease !important;
-        margin: 0 !important;
-        color: white !important;
-        font-size: 1.2rem !important;
-        cursor: pointer !important;
-        text-decoration: none !important;
-        padding: 0 !important;
-    }
-
-    .nav-cart:hover {
-        transform: scale(1.1) !important;
-        box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4) !important;
-        color: white !important;
-        background: linear-gradient(45deg, #667eea, #764ba2) !important;
-    }
-
-    .nav-cart .cart-count {
-        position: absolute !important;
-        top: -5px !important;
-        right: -5px !important;
-        background: #ff4757 !important;
-        color: white !important;
-        border-radius: 50% !important;
-        width: 20px !important;
-        height: 20px !important;
-        font-size: 0.7rem !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        font-weight: bold !important;
-    }
-
-    /* Hide cart in navbar on mobile - but show as fixed button */
+    /* Hide navbar cart on mobile */
     .navbar .nav-cart {
         display: none !important;
     }
     
-    /* Ensure cart shows as fixed button outside navbar */
-    body .nav-cart {
+    /* Show floating cart on mobile */
+    .floating-cart {
         display: flex !important;
     }
 }
@@ -555,12 +547,24 @@ body {
         padding: 0.5rem !important;
         border-radius: 50% !important;
         transition: all 0.3s ease !important;
+        margin-left: auto !important;
+        order: 2 !important;
     }
     
     .nav-cart:hover {
         color: #ffd700 !important;
         background: rgba(255, 255, 255, 0.1) !important;
         transform: translateY(-2px) !important;
+    }
+    
+    .nav-auth {
+        order: 3 !important;
+        margin-left: 1rem !important;
+    }
+    
+    .user-button {
+        order: 4 !important;
+        margin-left: 1rem !important;
     }
 }
     /* Force hamburger to be visible on mobile */
@@ -4763,59 +4767,13 @@ html {
         margin-left: 0.5rem;
     }
     
-    /* Ensure cart shows as fixed button on mobile */
-    .nav-cart {
-        position: fixed !important;
-        bottom: 20px !important;
-        left: 20px !important;
-        z-index: 1000 !important;
-        background: linear-gradient(45deg, #667eea, #764ba2) !important;
-        border-radius: 50% !important;
-        width: 60px !important;
-        height: 60px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3) !important;
-        transition: all 0.3s ease !important;
-        margin: 0 !important;
-        color: white !important;
-        font-size: 1.2rem !important;
-        cursor: pointer !important;
-        text-decoration: none !important;
-        padding: 0 !important;
-    }
-
-    .nav-cart:hover {
-        transform: scale(1.1) !important;
-        box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4) !important;
-        color: white !important;
-        background: linear-gradient(45deg, #667eea, #764ba2) !important;
-    }
-
-    .nav-cart .cart-count {
-        position: absolute !important;
-        top: -5px !important;
-        right: -5px !important;
-        background: #ff4757 !important;
-        color: white !important;
-        border-radius: 50% !important;
-        width: 20px !important;
-        height: 20px !important;
-        font-size: 0.7rem !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        font-weight: bold !important;
-    }
-
-    /* Hide cart in navbar on mobile - but show as fixed button */
+    /* Hide navbar cart on mobile */
     .navbar .nav-cart {
         display: none !important;
     }
     
-    /* Ensure cart shows as fixed button outside navbar */
-    body .nav-cart {
+    /* Show floating cart on mobile */
+    .floating-cart {
         display: flex !important;
     }
     
@@ -6441,4 +6399,234 @@ html {
     will-change: transform;
     backface-visibility: hidden;
     transform: translateZ(0);
+}
+
+/* Profile Order Cards */
+.order-card {
+    background: linear-gradient(135deg, #1A1A2E 0%, #16213e 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.order-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.order-id {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #f1f5f9;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.order-id i {
+    color: #667eea;
+    font-size: 1rem;
+}
+
+.order-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.order-status i {
+    font-size: 0.6rem;
+}
+
+.status-pending {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.status-approved {
+    background: rgba(40, 167, 69, 0.2);
+    color: #28a745;
+    border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+.status-cancelled {
+    background: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+    border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+.status-completed {
+    background: rgba(23, 162, 184, 0.2);
+    color: #17a2b8;
+    border: 1px solid rgba(23, 162, 184, 0.3);
+}
+
+.order-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.order-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-product, .order-amount {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #e2e8f0;
+}
+
+.order-product i {
+    color: #667eea;
+    font-size: 0.9rem;
+}
+
+.order-amount {
+    font-weight: 600;
+    color: #10b981;
+}
+
+.order-amount i {
+    color: #10b981;
+    font-size: 0.9rem;
+}
+
+.order-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.order-date, .order-payment {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.order-date i, .order-payment i {
+    color: #64748b;
+    font-size: 0.8rem;
+}
+
+.no-orders {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #94a3b8;
+}
+
+.no-orders i {
+    font-size: 3rem;
+    color: #64748b;
+    margin-bottom: 1rem;
+}
+
+.no-orders p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.shop-now-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.shop-now-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    color: white;
+}
+
+/* Mobile responsive for order cards */
+@media (max-width: 768px) {
+    .order-card {
+        padding: 1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    .order-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .order-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .order-id {
+        font-size: 1rem;
+    }
+}
+
+/* Marquee styles for order cards */
+.order-id-text.marquee,
+.product-name-text.marquee {
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 200px;
+    position: relative;
+}
+
+.order-id-text.marquee .marquee-text,
+.product-name-text.marquee .marquee-text {
+    display: inline-block;
+    animation: marquee-scroll 8s linear infinite;
+    padding-left: 100%;
+}
+
+@keyframes marquee-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+/* Pause marquee on hover */
+.order-id-text.marquee:hover .marquee-text,
+.product-name-text.marquee:hover .marquee-text {
+    animation-play-state: paused;
+}
+
+/* Mobile responsive marquee */
+@media (max-width: 768px) {
+    .order-id-text.marquee,
+    .product-name-text.marquee {
+        max-width: 150px;
+    }
 }
